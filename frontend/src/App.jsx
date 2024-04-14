@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "./components/Layout/Navbar";
 import Footer from "./components/Layout/Footer";
+import RegisterNew from "./components/Auth/RegisterNew";
 import Home from "./components/Home/Home";
 import Jobs from "./components/Job/Jobs";
 import JobDetails from "./components/Job/JobDetails";
@@ -43,7 +44,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<RegisterNew />} />
           <Route path="/" element={<Home />} />
           <Route path="/job/getall" element={<Jobs />} />
           <Route path="/job/:id" element={<JobDetails />} />

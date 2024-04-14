@@ -6,20 +6,20 @@ import { Context } from "../../main";
 const Application = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [coverLetter, setCoverLetter] = useState("");
+  const [coverLetter, setDescription] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [resume, setResume] = useState(null);
+  // const [address, setAddress] = useState("");
+  // const [resume, setResume] = useState(null);
 
   const { isAuthorized, user } = useContext(Context);
 
   const navigateTo = useNavigate();
 
   // Function to handle file input changes
-  const handleFileChange = (event) => {
-    const resume = event.target.files[0];
-    setResume(resume);
-  };
+  // const handleFileChange = (event) => {
+  //   const resume = event.target.files[0];
+  //   setResume(resume);
+  // };
 
   const { id } = useParams();
   const handleApplication = async (e) => {
@@ -28,9 +28,9 @@ const Application = () => {
     formData.append("name", name);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("address", address);
+    // formData.append("address", address);
     formData.append("coverLetter", coverLetter);
-    formData.append("resume", resume);
+    // formData.append("resume", resume);
     formData.append("jobId", id);
 
     try {
@@ -46,10 +46,10 @@ const Application = () => {
       );
       setName("");
       setEmail("");
-      setCoverLetter("");
+      setDescription("");
       setPhone("");
-      setAddress("");
-      setResume("");
+      // setAddress("");
+      // setResume("");
       toast.success(data.message);
       navigateTo("/job/getall");
     } catch (error) {
@@ -84,18 +84,18 @@ const Application = () => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <input
+          {/* <input
             type="text"
             placeholder="Your Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-          />
+          /> */}
           <textarea
             placeholder="CoverLetter..."
             value={coverLetter}
-            onChange={(e) => setCoverLetter(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
-          <div>
+          {/* <div>
             <label
               style={{ textAlign: "start", display: "block", fontSize: "20px" }}
             >
@@ -107,7 +107,7 @@ const Application = () => {
               onChange={handleFileChange}
               style={{ width: "100%" }}
             />
-          </div>
+          </div> */}
           <button type="submit">Send Application</button>
         </form>
       </div>

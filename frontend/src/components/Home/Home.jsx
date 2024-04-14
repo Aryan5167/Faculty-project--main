@@ -2,6 +2,8 @@ import React from "react";
 import { useContext } from "react";
 import { Context } from "../../main";
 import { Navigate } from "react-router-dom";
+import Hero from "../Hero/Hero";
+import AboutUs from "../AboutUs/AboutUs";
 import HeroSection from "./HeroSection";
 import HowItWorks from "./HowItWorks";
 import PopularCategories from "./PopularCategories";
@@ -14,11 +16,13 @@ const Home = () => {
   }
   return (
     <>
-      <section className="homePage page">
-        <HeroSection />
-        <HowItWorks />
+      <section className="homePage page" style={{}}>
+        {/* <HeroSection /> */}
+        <Hero/>
+        <AboutUs />
+        {/* <HowItWorks />
         <PopularCategories />
-        <PopularCompanies />
+        <PopularCompanies /> */}
       </section>
     </>
   );

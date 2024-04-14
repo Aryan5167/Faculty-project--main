@@ -46,7 +46,8 @@ const Login = () => {
       <section className="authPage">
         <div className="container">
           <div className="header">
-            <img src="/JobZeelogo.png" alt="logo" />
+            {/* <img src="/JobZeelogo.png" alt="logo" /> */}
+            <h2>Campus Connect</h2>
             <h3>Login to your account</h3>
           </div>
           <form>
@@ -55,8 +56,8 @@ const Login = () => {
               <div>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
                   <option value="">Select Role</option>
-                  <option value="Employer">Employer</option>
-                  <option value="Job Seeker">Job Seeker</option>
+                  <option value="Faculty">Faculty</option>
+                  <option value="Student">Student</option>
                 </select>
                 <FaRegUser />
               </div>

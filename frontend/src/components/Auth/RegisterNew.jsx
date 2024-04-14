@@ -9,10 +9,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 
-const Register = () => {
+const RegisterNew = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [level,setLevel]=useState("")
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [enrollNum, setEnrollNum] = useState("");
@@ -20,6 +20,7 @@ const Register = () => {
   const [batch, setBatch] = useState("");
   const [department, setDepartment] = useState("");
   const [cabinNumber, setCabinNumber] = useState("");
+
 
 
   const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
@@ -30,7 +31,6 @@ const Register = () => {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/register",
         { name,
-          phone,
           email,
           role,
           password,
@@ -39,6 +39,7 @@ const Register = () => {
           batch,
           department,
           cabinNumber,
+          level,
          },
         {
           headers: {
@@ -51,8 +52,8 @@ const Register = () => {
       setName("");
       setEmail("");
       setPassword("");
-      setPhone("");
       setRole("");
+      setLevel("");
       setEnrollNum("");
       setYear("");
       setBatch("");
@@ -84,12 +85,26 @@ const Register = () => {
               <div>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
                   <option value="">Select Role</option>
-                  <option value="Employer">Faculty</option>
-                  <option value="Job Seeker">Student</option>
+                  <option value="Faculty">Faculty</option>
+                  <option value="Student">Student</option>
                 </select>
                 <FaRegUser />
               </div>
             </div>
+            {role==="Faculty" && (
+              <div className="inputTag">
+              <label>Select Post</label>
+                <div>
+              <select value={level} onChange={(e) => setLevel(e.target.value)}>
+                  <option value="">Select Level</option>
+                  <option value="HOD">HOD</option>
+                  <option value="Professor">Professor</option>
+                  <option value="Dean">Dean</option>
+               </select>
+               <FaRegUser />
+              </div>
+            </div>
+            )}
             <div className="inputTag">
               <label>Name</label>
               <div>
@@ -112,18 +127,6 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <MdOutlineMailOutline />
-              </div>
-            </div>
-            <div className="inputTag">
-              <label>Phone Number</label>
-              <div>
-                <input
-                  type="number"
-                  placeholder="12345678"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                <FaPhoneFlip />
               </div>
             </div>
             <div className="inputTag">
@@ -226,4 +229,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterNew;

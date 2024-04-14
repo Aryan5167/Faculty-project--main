@@ -29,8 +29,9 @@ const Navbar = () => {
   return (
     <nav className={isAuthorized ? "navbarShow" : "navbarHide"}>
       <div className="container">
-        <div className="logo">
-          <img src="/JobZee-logos__white.png" alt="logo" />
+        <div className="logo" style={{display:"flex",alignItems:"center",width:"20%"}}>
+          {/* <img src="/JobZee-logos__white.png" alt="logo" /> */}
+          <h1 style={{color:"white",fontSize:"30px",alignSelf:"center",justifySelf:"center"}}>Campus Connect</h1>
         </div>
         <ul className={!show ? "menu" : "show-menu menu"}>
           <li>
@@ -38,7 +39,7 @@ const Navbar = () => {
               HOME
             </Link>
           </li>
-          {user && user.role==='Job Seeker' ? 
+          {user && user.role==='Student' ? 
           <li>
           
           <Link to={"/job/post"} onClick={() => setShow(false)}>
@@ -51,21 +52,21 @@ const Navbar = () => {
           }
           <li>
             <Link to={"/applications/me"} onClick={() => setShow(false)}>
-              {user && user.role === "Employer"
+              {user && user.role === "Faculty"
                 ? "APPLICANT'S APPLICATIONS"
                 : "MY APPLICATIONS"}
             </Link>
           </li>
-          {user && user.role === "Employer" ? (
+          {user && user.role === "Faculty" ? (
             <>
               <li>
                 <Link to={"/job/post"} onClick={() => setShow(false)}>
-                  POST NEW JOB
+                  CREATE APPLICATION
                 </Link>
               </li>
               <li>
                 <Link to={"/job/me"} onClick={() => setShow(false)}>
-                  VIEW YOUR JOBS
+                  MY APPLICATIONS
                 </Link>
               </li>
             </>

@@ -87,7 +87,7 @@ const MyJobs = () => {
     <>
       <div className="myJobs page">
         <div className="container">
-          <h1>Your Posted Jobs</h1>
+          <h1>Your Applications</h1>
           {myJobs.length > 0 ? (
             <>
               <div className="banner">
@@ -344,7 +344,7 @@ const MyJobs = () => {
             </>
           ) : (
             <p>
-              You've not posted any job or may be you deleted all of your jobs!
+              You've not created any applications or may be you deleted all of your application!
             </p>
           )}
         </div>

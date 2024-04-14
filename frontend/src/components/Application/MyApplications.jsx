@@ -3,7 +3,7 @@ import { Context } from "../../main";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import ResumeModal from "./ResumeModal";
+// import ResumeModal from "./ResumeModal";
 
 const MyApplications = () => {
   const { user } = useContext(Context);
@@ -93,7 +93,7 @@ const MyApplications = () => {
         </div>
       ) : (
         <div className="container">
-          <h1>Applications From Job Seekers</h1>
+          <h1>Pending Applications</h1>
           {applications.length <= 0 ? (
             <>
               <h4>No Applications Found</h4>
