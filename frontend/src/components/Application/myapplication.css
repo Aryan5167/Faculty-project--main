@@ -1,0 +1,33 @@
+.application_card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .application_card .detail {
+    margin-bottom: 10px;
+  }
+  
+  .application_card .detail p {
+    margin: 5px 0;
+  }
+  
+  .application_card .detail p span {
+    font-weight: bold;
+  }
+  
+  .application_card .actions button {
+    background-color: #ff6347;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .application_card .actions button:hover {
+    background-color: #cc4c35;
+  }
+  

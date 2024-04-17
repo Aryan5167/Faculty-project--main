@@ -3,190 +3,90 @@ import { Context } from "../../main";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-// import ResumeModal from "./ResumeModal";
+import "./myapplication.css"
 
 const MyApplications = () => {
-  const { user } = useContext(Context);
-  const [applications, setApplications] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [resumeImageUrl, setResumeImageUrl] = useState("");
-
   const { isAuthorized } = useContext(Context);
   const navigateTo = useNavigate();
+  const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    try {
-      if (user && user.role === "Employer") {
+    if (!isAuthorized) {
+      navigateTo("/");
+    } else {
+      try {
         axios
-          .get("http://localhost:4000/api/v1/application/employer/getall", {
+          .get("http://localhost:4000/api/v1/applicationNew/getall", {
             withCredentials: true,
           })
           .then((res) => {
             setApplications(res.data.applications);
           });
-      } else {
-        axios
-          .get("http://localhost:4000/api/v1/application/jobseeker/getall", {
-            withCredentials: true,
-          })
-          .then((res) => {
-            setApplications(res.data.applications);
-          });
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
-    } catch (error) {
-      toast.error(error.response.data.message);
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, navigateTo]);
 
-  if (!isAuthorized) {
-    navigateTo("/");
-  }
-
-  const deleteApplication = (id) => {
-    try {
-      axios
-        .delete(`http://localhost:4000/api/v1/application/delete/${id}`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          toast.success(res.data.message);
-          setApplications((prevApplication) =>
-            prevApplication.filter((application) => application._id !== id)
-          );
-        });
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  const openModal = (imageUrl) => {
-    setResumeImageUrl(imageUrl);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  // const deleteApplication = (id) => {
+  //   try {
+  //     axios
+  //       .delete(`http://localhost:4000/api/v1/application/delete/${id}`, {
+  //         withCredentials: true,
+  //       })
+  //       .then((res) => {
+  //         toast.success(res.data.message);
+  //         setApplications((prevApplications) =>
+  //           prevApplications.filter((application) => application._id !== id)
+  //         );
+  //       });
+  //   } catch (error) {
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
 
   return (
     <section className="my_applications page">
-      {user && user.role === "Job Seeker" ? (
-        <div className="container">
-          <h1>My Applications</h1>
-          {applications.length <= 0 ? (
-            <>
-              {" "}
-              <h4>No Applications Found</h4>{" "}
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <JobSeekerCard
-                  element={element}
-                  key={element._id}
-                  deleteApplication={deleteApplication}
-                  openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      ) : (
-        <div className="container">
-          <h1>Pending Applications</h1>
-          {applications.length <= 0 ? (
-            <>
-              <h4>No Applications Found</h4>
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <EmployerCard
-                  element={element}
-                  key={element._id}
-                  openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      )}
-      {modalOpen && (
-        <ResumeModal imageUrl={resumeImageUrl} onClose={closeModal} />
-      )}
+      <div className="container">
+        <h1>All Applications</h1>
+        {applications.length === 0 ? (
+          <h4>No Applications Found</h4>
+        ) : (
+          applications.map((application) => (
+            <ApplicationCard
+              key={application._id}
+              application={application}
+              // deleteApplication={deleteApplication}
+            />
+          ))
+        )}
+      </div>
     </section>
   );
 };
 
 export default MyApplications;
 
-const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
+const ApplicationCard = ({ application }) => {
   return (
-    <>
-      <div className="job_seeker_card">
-        <div className="detail">
-          <p>
-            <span>Name:</span> {element.name}
-          </p>
-          <p>
-            <span>Email:</span> {element.email}
-          </p>
-          <p>
-            <span>Phone:</span> {element.phone}
-          </p>
-          <p>
-            <span>Address:</span> {element.address}
-          </p>
-          <p>
-            <span>CoverLetter:</span> {element.coverLetter}
-          </p>
-        </div>
-        <div className="resume">
-          <img
-            src={element.resume.url}
-            alt="resume"
-            onClick={() => openModal(element.resume.url)}
-          />
-        </div>
-        <div className="btn_area">
-          <button onClick={() => deleteApplication(element._id)}>
-            Delete Application
-          </button>
-        </div>
+    <div className="application_card">
+      <div className="detail">
+        <p>
+          <span>Subject:</span> {application.subject}
+        </p>
+        <p>
+          <span>Content:</span> {application.content}
+        </p>
+        <p>
+          <span>Status:</span> {application.status}
+        </p>
+        <p>
+          <span>Created At:</span> {new Date(application.dateOfCreation).toLocaleString()}
+        </p>
       </div>
-    </>
-  );
-};
-
-const EmployerCard = ({ element, openModal }) => {
-  return (
-    <>
-      <div className="job_seeker_card">
-        <div className="detail">
-          <p>
-            <span>Name:</span> {element.name}
-          </p>
-          <p>
-            <span>Email:</span> {element.email}
-          </p>
-          <p>
-            <span>Phone:</span> {element.phone}
-          </p>
-          <p>
-            <span>Address:</span> {element.address}
-          </p>
-          <p>
-            <span>CoverLetter:</span> {element.coverLetter}
-          </p>
-        </div>
-        <div className="resume">
-          <img
-            src={element.resume.url}
-            alt="resume"
-            onClick={() => openModal(element.resume.url)}
-          />
-        </div>
-      </div>
-    </>
+      {/* <div className="actions">
+        <button onClick={() => deleteApplication(application._id)}>Delete</button>
+      </div> */}
+    </div>
   );
 };

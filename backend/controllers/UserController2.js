@@ -88,3 +88,14 @@ export const getUser = catchAsyncErrors((req, res, next) => {
     user,
   });
 });
+
+export const getFacultyList = catchAsyncErrors(async (req, res, next) => {
+  try {
+    // Find all users with role 'Faculty'
+    const faculty = await User.find({ role: "Faculty" }, "name");
+    res.status(200).json({ success: true, faculty });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
