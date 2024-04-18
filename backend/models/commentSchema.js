@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const User=require('./userSchema')
-const Application=require('./ApplicationNewSchema')
+import mongoose from "mongoose"
+// const User=require('./userSchema')
+// const Application=require('./ApplicationNewSchema')
 
 const commentSchema = new mongoose.Schema({
-  commentId: {
+  commenterId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    auto: true
+    ref:'User'
   },
   applicationId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -16,16 +16,13 @@ const commentSchema = new mongoose.Schema({
   senderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   },
   tagId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   },
   comment: {
     type: String,
-    required: true
   },
   status: {
     type: String,
@@ -42,6 +39,4 @@ const commentSchema = new mongoose.Schema({
   }
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-
-module.exports = Comment;
+export const Comment = mongoose.model("Comment", commentSchema);
