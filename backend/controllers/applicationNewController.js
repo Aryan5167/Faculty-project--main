@@ -68,32 +68,147 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
 });
 
 
-export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
+// export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
  
-  try {
+//   try {
 
+//     if (!req.user || !req.user._id) {
+//       throw new ErrorHandler("User information not found in request.", 400);
+//     }
+
+//     const userId  = req.user._id;
+//       // Retrieve all applications from the database
+//       const comments = await Comment.find({ commenterId: userId });
+
+//       // Extract applicationIds from comments
+//       const applicationIds = comments.map(comment => comment.applicationId);
+  
+//       // Retrieve applications corresponding to the extracted applicationIds
+//       const applications = await ApplicationNew.find({ _id: { $in: applicationIds } });
+  
+//       res.status(200).json({
+//         success: true,
+//         count: applications.length,
+//         applications,
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   });
+
+
+// export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     if (!req.user || !req.user._id) {
+//       throw new ErrorHandler("User information not found in request.", 400);
+//     }
+
+//     const userId = req.user._id;
+
+//     const applications = await Comment.aggregate([
+//       {
+//         $match: { commenterId: userId } // Filter comments by the commenterId
+//       },
+//       {
+//         $lookup: {
+//           from: "applicationnews", // Collection name of ApplicationNew
+//           localField: "applicationId",
+//           foreignField: "_id",
+//           as: "application"
+//         }
+//       },
+//       {
+//         $unwind: "$application"
+//       },
+//       {
+//         $replaceRoot: { newRoot: "$application" }
+//       }
+//     ]);
+
+//     res.status(200).json({
+//       success: true,
+//       count: applications.length,
+//       applications
+//     });
+//   } catch (error) {
+//     return next(new ErrorHandler(error.message, 500));
+//   }
+// });
+
+export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
+  try {
     if (!req.user || !req.user._id) {
       throw new ErrorHandler("User information not found in request.", 400);
     }
 
-    const userId  = req.user._id;
-      // Retrieve all applications from the database
-      const comments = await Comment.find({ commenterId: userId });
+    const userId = req.user._id;
 
-      // Extract applicationIds from comments
-      const applicationIds = comments.map(comment => comment.applicationId);
-  
-      // Retrieve applications corresponding to the extracted applicationIds
-      const applications = await ApplicationNew.find({ _id: { $in: applicationIds } });
-  
-      res.status(200).json({
-        success: true,
-        count: applications.length,
-        applications,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  });
+    // Retrieve all applications with corresponding comment IDs
+    const applications = await ApplicationNew.aggregate([
+      {
+        $lookup: {
+          from: "comments", // The name of the comment collection
+          localField: "_id", // Field from the application schema
+          foreignField: "applicationId", // Field from the comment schema
+          as: "comments", // Alias for the joined comments
+        },
+      },
+      {
+        $match: {
+          "comments.commenterId": userId, // Match comments by commenter ID
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: applications.length,
+      applications,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+export const approveApplication = async (req, res, next) => {
+  const { applicationId, commentId } = req.params;
+
+  try {
+    // Update status to "Approved" in the application schema
+    await ApplicationNew.findByIdAndUpdate(applicationId, { status: "Approved" });
+
+    // Update status to "Approved" in the corresponding comment schema
+    await Comment.findByIdAndUpdate(commentId, { status: "Approved" });
+
+    res.status(200).json({
+      success: true,
+      message: "Application approved successfully!",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+};
+
+// Reject an application and update corresponding comment
+export const rejectApplication = async (req, res, next) => {
+  const { applicationId, commentId } = req.params;
+
+  try {
+    // Update status to "Rejected" in the application schema
+    await ApplicationNew.findByIdAndUpdate(applicationId, { status: "Rejected" });
+
+    // Update status to "Rejected" in the corresponding comment schema
+    await Comment.findByIdAndUpdate(commentId, { status: "Rejected" });
+
+    res.status(200).json({
+      success: true,
+      message: "Application rejected successfully!",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+};
+
+
 
 // Other controller functions for updating, deleting, and retrieving applications can be added here

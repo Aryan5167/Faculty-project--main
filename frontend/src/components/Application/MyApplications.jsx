@@ -3,7 +3,7 @@ import { Context } from "../../main";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import "./myapplication.css"
+import "./myapplication.css";
 
 const MyApplications = () => {
   const { isAuthorized } = useContext(Context);
@@ -28,22 +28,51 @@ const MyApplications = () => {
     }
   }, [isAuthorized, navigateTo]);
 
-  // const deleteApplication = (id) => {
-  //   try {
-  //     axios
-  //       .delete(`http://localhost:4000/api/v1/application/delete/${id}`, {
-  //         withCredentials: true,
-  //       })
-  //       .then((res) => {
-  //         toast.success(res.data.message);
-  //         setApplications((prevApplications) =>
-  //           prevApplications.filter((application) => application._id !== id)
-  //         );
-  //       });
-  //   } catch (error) {
-  //     toast.error(error.response.data.message);
-  //   }
-  // };
+  const approveApplication = async (applicationId, commentId) => {
+    try {
+      await axios.put(
+        `http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/approve`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Application approved successfully!");
+      // Refresh applications list
+      setApplications((prevApplications) =>
+      prevApplications.map((application) =>
+        application._id === applicationId
+          ? { ...application, status: 'Approved' }
+          : application
+      )
+    );
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const rejectApplication = async (applicationId, commentId) => {
+    try {
+      await axios.put(
+        `http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/reject`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Application rejected successfully!");
+      // Refresh applications list
+      setApplications((prevApplications) =>
+      prevApplications.map((application) =>
+        application._id === applicationId
+          ? { ...application, status: 'Rejected' }
+          : application
+      )
+    );
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <section className="my_applications page">
@@ -56,7 +85,8 @@ const MyApplications = () => {
             <ApplicationCard
               key={application._id}
               application={application}
-              // deleteApplication={deleteApplication}
+              approveApplication={approveApplication}
+              rejectApplication={rejectApplication}
             />
           ))
         )}
@@ -67,42 +97,41 @@ const MyApplications = () => {
 
 export default MyApplications;
 
-const ApplicationCard = ({ application }) => {
+const ApplicationCard = ({ application, approveApplication, rejectApplication }) => {
+  const { status } = application;
+
+  // Render buttons only if the status is not "Approved" or "Rejected"
+  const renderButtons = status !== "Approved" && status !== "Rejected";
   return (
     <div className="application_card">
       <div className="detail">
         <p>
-          <span style={{fontWeight:"bold"}}>Subject:</span> {application.subject}
+          <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
         </p>
         <p>
-          <span style={{fontWeight:"bold"}}>Content:</span> {application.content}
+          <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
         </p>
         <p>
-          <span style={{fontWeight:"bold"}}> Status:</span> {application.status}
+          <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
         </p>
         <p>
-          <span style={{fontWeight:"bold"}}> Created At:</span> {new Date(application.dateOfCreation).toLocaleString()}
+          <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
+          {new Date(application.dateOfCreation).toLocaleString()}
         </p>
+        <span>Comment ID:</span> {application.comments[0]._id}
       </div>
-      <div className="actions">
-                <textarea
-                  // value={commentText}
-                  // onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Write your comment here..."
-                ></textarea>
-                <button>
-                  Submit Comment
-                </button>
-                <button >
-                  Forward
-                </button>
-                <button >
-                  Reject
-                </button>
-              </div>
-      {/* <div className="actions">
-        <button onClick={() => deleteApplication(application._id)}>Delete</button>
-      </div> */}
+
+      {renderButtons && <div className="actions">
+        <textarea placeholder="Write your comment here..."></textarea>
+       
+        <button onClick={() => approveApplication(application._id, application.comments[0]._id)}>
+          Approve
+        </button>
+        <button onClick={() => rejectApplication(application._id, application.comments[0]._id)}>
+          Reject
+        </button>
+      </div>}
+      
     </div>
   );
 };
