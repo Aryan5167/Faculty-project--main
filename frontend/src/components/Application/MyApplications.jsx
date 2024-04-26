@@ -72,18 +72,34 @@ const ApplicationCard = ({ application }) => {
     <div className="application_card">
       <div className="detail">
         <p>
-          <span>Subject:</span> {application.subject}
+          <span style={{fontWeight:"bold"}}>Subject:</span> {application.subject}
         </p>
         <p>
-          <span>Content:</span> {application.content}
+          <span style={{fontWeight:"bold"}}>Content:</span> {application.content}
         </p>
         <p>
-          <span>Status:</span> {application.status}
+          <span style={{fontWeight:"bold"}}> Status:</span> {application.status}
         </p>
         <p>
-          <span>Created At:</span> {new Date(application.dateOfCreation).toLocaleString()}
+          <span style={{fontWeight:"bold"}}> Created At:</span> {new Date(application.dateOfCreation).toLocaleString()}
         </p>
       </div>
+      <div className="actions">
+                <textarea
+                  // value={commentText}
+                  // onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Write your comment here..."
+                ></textarea>
+                <button>
+                  Submit Comment
+                </button>
+                <button >
+                  Forward
+                </button>
+                <button >
+                  Reject
+                </button>
+              </div>
       {/* <div className="actions">
         <button onClick={() => deleteApplication(application._id)}>Delete</button>
       </div> */}
