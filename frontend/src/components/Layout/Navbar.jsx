@@ -69,6 +69,11 @@ const Navbar = () => {
                   MY APPLICATIONS
                 </Link>
               </li>
+              <li>
+                <Link to={"/application/applicationTag"} onClick={() => setShow(false)}>
+                  MY TAGS
+                </Link>
+              </li>
             </>
           ) : (
             <></>

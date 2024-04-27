@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 // const Application=require('./ApplicationNewSchema')
 
 const commentSchema = new mongoose.Schema({
-  commenterId: {
+  commenterId: { //who presently has the application
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref:'User'
@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema({
     ref: 'Application',
     required: true
   },
-  senderId: {
+  senderId: { //to whom the application is forwarded
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },

@@ -10,6 +10,7 @@ const PostJob = () => {
   const [selectedFaculty, setSelectedFaculty] = useState(""); // State to hold the selected faculty
   const [facultyList, setFacultyList] = useState([]); // State to hold the list of faculty
   const { isAuthorized, user } = useContext(Context);
+  const [selectedTagFaculty,setselectedTagFaculty]=useState("");
 
   // Fetch the list of faculty members from the backend when the component mounts
   useEffect(() => {
@@ -28,7 +29,7 @@ const PostJob = () => {
     // Send the selected faculty along with the other form data to the backend
     await axios.post(
       "http://localhost:4000/api/v1/applicationNew/post",
-      { subject, content, initial: selectedFaculty }, // Include selected faculty in the request
+      { subject, content, initial: selectedFaculty,taggerId:selectedTagFaculty }, // Include selected faculty in the request
       {
         withCredentials: true,
         headers: {
@@ -65,6 +66,18 @@ const PostJob = () => {
             </div>
 
             {/* Render dropdown for selecting the receiver (faculty) */}
+            <div className="wrapper">
+              <select
+                value={selectedTagFaculty}
+                onChange={(e) => setselectedTagFaculty(e.target.value)}
+              > 
+                <option value="">Select Viewer</option>
+                {facultyList.map(faculty => (
+                  <option key={faculty._id} value={faculty._id}>{faculty.name}</option>
+                ))}
+              </select>
+            </div>
+
             <div className="wrapper">
               <select
                 value={selectedFaculty}
