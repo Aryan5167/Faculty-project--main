@@ -28,8 +28,8 @@ const ForwardModal = ({ application, onClose, onForward }) => {
       <div className="forward-modal-background"></div>
       <div className="forward-modal">
         <div className="forward-modal-header">
-          <h2>Forward Application</h2>
-          <button onClick={onClose}>Close</button>
+          <h6> FORWARD APPLICATION</h6>
+         
         </div>
         <div className="forward-modal-content">
           <label>Recipient:</label>
@@ -54,6 +54,7 @@ const ForwardModal = ({ application, onClose, onForward }) => {
           ></textarea>
         </div>
         <div className="forward-modal-footer">
+        <button onClick={onClose}>Close</button>
           <button onClick={handleForward}>Forward</button>
         </div>
       </div>
