@@ -18,6 +18,7 @@ import PostJob from "./components/Job/PostJob";
 import NotFound from "./components/NotFound/NotFound";
 import MyJobs from "./components/Job/MyJobs";
 import TagPage from "./components/Application/TagPage";
+import Header from "./components/Layout/Header";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
@@ -40,9 +41,9 @@ const App = () => {
   }, [isAuthorized]);
 
   return (
-    <>
+    < main className="min-h-screen">
       <BrowserRouter>
-        <Navbar />
+        <Header />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterNew />} />
@@ -59,7 +60,7 @@ const App = () => {
         <Footer />
         <Toaster />
       </BrowserRouter>
-    </>
+    </ main>
   );
 };
 

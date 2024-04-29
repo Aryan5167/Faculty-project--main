@@ -34,7 +34,9 @@ const { isAuthorized } = useContext(Context);
 
 
   return (
-    <div className="application_cards" style={{display: "flex", flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}}>
+    <div  style={{ height: 'calc(100vh - 80px)' }}>
+
+    <div className="application_cards mt-24" style={{display: "flex", flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}}>
       {applications.length === 0 ? (
         <h4>No Applications Found</h4>
       ) : (
@@ -43,6 +45,7 @@ const { isAuthorized } = useContext(Context);
         ))
       )}
     </div>
+      </div>
   );
 };
 
