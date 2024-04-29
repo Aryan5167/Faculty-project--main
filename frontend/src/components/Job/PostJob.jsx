@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
-
+import "./postJob.css"
 const PostJob = () => {
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
@@ -52,6 +52,7 @@ const PostJob = () => {
 
   return (
     <>
+    <div className="create-app">
       <div className="job_post page">
         <div className="container">
           <h3>CREATE APPLICATION</h3>
@@ -61,12 +62,25 @@ const PostJob = () => {
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="APPLICATION subject"
+                placeholder="Enter application subject"
               />
             </div>
 
             {/* Render dropdown for selecting the receiver (faculty) */}
-            <div className="wrapper">
+           
+
+            <div className="wrapper select-field">
+              <select
+                value={selectedFaculty}
+                onChange={(e) => setSelectedFaculty(e.target.value)}
+              >
+                <option value="">Select Receiver</option>
+                {facultyList.map(faculty => (
+                  <option key={faculty._id} value={faculty._id}>{faculty.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="wrapper select-field">
               <select
                 value={selectedTagFaculty}
                 onChange={(e) => setselectedTagFaculty(e.target.value)}
@@ -78,27 +92,16 @@ const PostJob = () => {
               </select>
             </div>
 
-            <div className="wrapper">
-              <select
-                value={selectedFaculty}
-                onChange={(e) => setSelectedFaculty(e.target.value)}
-              >
-                <option value="">Select Receiver</option>
-                {facultyList.map(faculty => (
-                  <option key={faculty._id} value={faculty._id}>{faculty.name}</option>
-                ))}
-              </select>
-            </div>
-
             <textarea
               rows="10"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Application content"
+              placeholder="Enter Application content"
             />
             <button type="submit">Create</button>
           </form>
         </div>
+      </div>
       </div>
     </>
   );

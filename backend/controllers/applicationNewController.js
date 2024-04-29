@@ -57,10 +57,20 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
     // Retrieve applications corresponding to the extracted applicationIds
     const applications = await ApplicationNew.find({ _id: { $in: applicationIds } });
 
+    const modifiedApplications = applications.map(application => {
+      const comment = comments.find(comment => String(comment.applicationId) === String(application._id));
+      if (comment) {
+        return { ...application.toObject(), isViewed: comment.isViewed };
+      } else {
+        return application.toObject();
+      }
+    });
     res.status(200).json({
       success: true,
-      count: applications.length,
-      applications,
+      count: modifiedApplications.length,
+      // count: applications.length,
+      // applications,
+      applications: modifiedApplications,
     });
   } catch (error) {
     console.log(userId)
@@ -93,10 +103,21 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
       },
     ]);
 
+    const modifiedApplications = applications.map(application => {
+      const comment = application.comments.find(comment => String(comment.commenterId) === String(userId));
+      if (comment) {
+        return { ...application, isViewed: comment.isViewed };
+      } else {
+        return application;
+      }
+    });
+
     res.status(200).json({
       success: true,
-      count: applications.length,
-      applications,
+      count: modifiedApplications.length,
+      applications: modifiedApplications,
+      // count: applications.length,
+      // applications,
     });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
@@ -111,7 +132,7 @@ export const approveApplication = async (req, res, next) => {
     await ApplicationNew.findByIdAndUpdate(applicationId, { status: "Approved" });
 
     // Update status to "Approved" in the corresponding comment schema
-    await Comment.findByIdAndUpdate(commentId, { status: "Approved" });
+    await Comment.findByIdAndUpdate(commentId, { status: "Approved",isViewed:true});
 
     res.status(200).json({
       success: true,
@@ -131,7 +152,7 @@ export const rejectApplication = async (req, res, next) => {
     await ApplicationNew.findByIdAndUpdate(applicationId, { status: "Rejected" });
 
     // Update status to "Rejected" in the corresponding comment schema
-    await Comment.findByIdAndUpdate(commentId, { status: "Rejected" });
+    await Comment.findByIdAndUpdate(commentId, { status: "Rejected",isViewed:true});
 
     res.status(200).json({
       success: true,
@@ -150,7 +171,7 @@ export const forwardApplication = async (req, res, next) => {
     // Update the comment associated with the application
     await Comment.findOneAndUpdate(
       { applicationId: applicationId, commenterId: req.user._id },
-      { senderId: recipientId, comment: comment, status: 'Pending',isViewed:true }
+      { senderId: recipientId, comment: comment, status: 'pending',isViewed:true}
     );
 
     // Create a new comment for the forwarded application
@@ -161,7 +182,7 @@ export const forwardApplication = async (req, res, next) => {
       status: 'Pending'
     });
     await newComment.save();
-
+    // await ApplicationNew.findByIdAndUpdate(applicationId, { status: 'forwarded',isViewed:true });
     res.status(200).json({ success: true, message: 'Application forwarded successfully' });
   } catch (error) {
     next(new ErrorHandler(error.message, 500));
