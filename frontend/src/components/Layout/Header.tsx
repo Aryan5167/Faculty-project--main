@@ -81,15 +81,16 @@ const Header = () => {
             onClick={handleLogout}
             className="ml-4 lg:ml-12 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-800/80"
           >
-            Logout
+            LOGOUT
           </button>
         ) : (
-          <button
-            onClick={() => { }}
-            className="ml-4 lg:ml-12 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-800/80"
-          >
-            Login
-          </button>
+          <span></span>
+          // <button
+          //   onClick={() => { }}
+          //   className="ml-4 lg:ml-12 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-800/80"
+          // >
+          //   LOGIN
+          // </button>
         )}
       </div>
     </header>

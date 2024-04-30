@@ -5,7 +5,7 @@ export const studentNavItems = [
         onclick: () => setShow(false)
     },
     {
-        text: "POST APPLICATION",
+        text: "CREATE APPLICATION",
         href: "/job/post",
         onclick: () => setShow(false)
     },

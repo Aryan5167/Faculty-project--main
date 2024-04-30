@@ -62,7 +62,7 @@ const PostJob = () => {
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="Enter application subject"
+                placeholder="Enter Application Subject"
               />
             </div>
 
@@ -96,7 +96,7 @@ const PostJob = () => {
               rows="10"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Enter Application content"
+              placeholder="Enter Application Content"
             />
             <button type="submit">Create</button>
           </form>
