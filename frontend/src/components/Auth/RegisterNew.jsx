@@ -76,8 +76,8 @@ const RegisterNew = () => {
         <div className="container">
           <div className="header">
             {/* <img src="/JobZeelogo.png" alt="logo" /> */}
-            <h2>Campus Connect</h2>
-            <h3>Create a new account</h3>
+            {/* <h2 style={{marginTop:"100px" ,marginBottom:"-20px"}}>Campus Connect</h2> */}
+            <h3 style={{marginTop:"100px"}}>Create a new account</h3>
           </div>
           <form>
             <div className="inputTag">
@@ -188,12 +188,19 @@ const RegisterNew = () => {
                 <div className="inputTag">
                   <label>Department</label>
                   <div>
-                    <input
+                  <select value={department} onChange={(e) => setDepartment(e.target.value)}>
+                  <option value="">Select Department</option>
+                  <option value="CSE">CSE</option>
+                  <option value="IT">IT</option>
+                  <option value="ECE">ECE</option>
+                   <option value="BIOTECH">BIOTECH</option>
+                </select>
+                    {/* <input
                       type="text"
                       placeholder="Enter Department"
                       value={department}
                       onChange={(e) => setDepartment(e.target.value)}
-                    />
+                    /> */}
                     <FaPencilAlt />
                   </div>
                 </div>

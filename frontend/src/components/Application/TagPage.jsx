@@ -35,10 +35,10 @@ const { isAuthorized } = useContext(Context);
 
   return (
     <div  style={{ height: 'calc(100vh - 80px)' }}>
-
+    <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ONGOING APPLICATIONS</h4>
     <div className="application_cards mt-24" style={{display: "flex", flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}}>
       {applications.length === 0 ? (
-        <h4>No Applications Found</h4>
+        <h2 style={{ marginLeft: "20px" }}>No Applications Found</h2>
       ) : (
         applications.map((application) => (
           <ApplicationCard key={application._id} application={application} />
