@@ -47,8 +47,8 @@ const Login = () => {
         <div className="container">
           <div className="header">
             {/* <img src="/JobZeelogo.png" alt="logo" /> */}
-            <h2>Campus Connect</h2>
-            <h3>Login to your account</h3>
+            {/* <h2 style={{marginTop:"100px" ,marginBottom:"-20px"}}>Campus Connect</h2> */}
+            <h3 style={{marginTop:"100px"}}>Login to your account</h3>
           </div>
           <form>
             <div className="inputTag">
