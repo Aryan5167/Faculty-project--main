@@ -78,6 +78,25 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
   }
 });
 
+
+export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
+  try { 
+    const myApplications = await ApplicationNew.find({ creatorId: req.user._id });
+    res.status(200).json({ applications:myApplications });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
+})
+
+export const getCommentByApplication=catchAsyncErrors((async(req,res,next)=>{
+  try {
+    const comments = await Comment.find({ applicationId: req.params.applicationId });
+    res.status(200).json({ comments:comments });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch comments" });
+  }
+}))
+
 export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
   try {
     if (!req.user || !req.user._id) {

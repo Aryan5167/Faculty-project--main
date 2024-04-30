@@ -11,7 +11,7 @@ export const studentNavItems = [
     },
     {
         text: "My Applications",
-        href: "/applications/me",
+        href: "/jobs/me",
         onclick: () => setShow(false)
     },
 ];

@@ -17,7 +17,7 @@ const Header = () => {
   const words = [
     {
       text: "CAMPUS-CONNECT",
-      className: "text-3xl text-white uppercase font-semibold tracking-tighter",
+      className: "text-2xl text-white uppercase font-semibold tracking-tighter",
     },
   ];
   const handleLogout = async () => {
@@ -55,7 +55,7 @@ const Header = () => {
                 to={href}
                 key={index}
                 className={cn(
-                  " text-xl text-slate-200 hover:underline hover:underline-offset-4"
+                  " text-l text-slate-200 hover:underline hover:underline-offset-4"
                 )}
               >
                 {text}

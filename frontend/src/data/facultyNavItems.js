@@ -19,7 +19,7 @@ export const facultyNavItems = [
     },
     {
         text: "MY APPLICATIONS",
-        href: "/job/me",
+        href: "/jobs/me",
         onclick: () => setShow(false)
 
     },
