@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./myapplication.css";
 import ForwardModal from "./ForwardModal";
-import { FaCheck, FaTimes,FaClock } from 'react-icons/fa';
+import { FaCheck, FaTimes,FaClock,FaTimesCircle } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 const MyApplications = () => {
   const { isAuthorized } = useContext(Context);
@@ -179,7 +179,9 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         {status === "Approved" && (
           <FaCheck style={{ color: "green", cursor: "pointer" }} />
         )}
-
+      {status === "Withdrawn" && (
+          <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+        )}
        {status === "pending" && isViewed==true && (
            <IoMdArrowForward style={{ color: "black", cursor: "pointer",fontSize:"18px" }} />
          )} 
@@ -201,10 +203,20 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
         {new Date(application.dateOfCreation).toLocaleString()}
       </p>
-      {status === "pending" && isViewed==true && ( <p>
+      {/* {status === "pending" &&( <p>
         <span style={{ fontWeight: "bold" }}>Comment:</span>{application.comments[0].comment}
        
       </p>
+)} */}
+{status === "pending" && (
+  <div>
+     <span style={{ fontWeight: "bold" }}>Comment:</span>
+    {application.comments.map((comment, index) => (
+      <p key={index}>
+        <span style={{ fontWeight: "bold" }}>Comment {index + 1}:</span> {comment.comment}
+      </p>
+    ))}
+  </div>
 )}
       {/* <span>Comment ID:</span> {application.comments[0]._id} */}
     </div>

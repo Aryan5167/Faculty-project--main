@@ -181,7 +181,21 @@ export const rejectApplication = async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 };
+export const withDrawApplication = async (req, res, next) => {
+  const { applicationId } = req.params;
 
+  try {
+    // Update status to "Withdrawn" in the application schema
+    await ApplicationNew.findByIdAndUpdate(applicationId, { status: "Withdrawn" });
+
+    res.status(200).json({
+      success: true,
+      message: "Application withdrawn successfully!",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+};
 export const forwardApplication = async (req, res, next) => {
   try {
     const { applicationId } = req.params;
