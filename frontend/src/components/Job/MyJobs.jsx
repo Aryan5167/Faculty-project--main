@@ -14,7 +14,7 @@ const MyJobs = () => {
     const fetchApplications = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/applicationNew/getall",
+          "http://localhost:4000/api/v1/applicationNew/getMyApplications",
           { withCredentials: true }
         );
         setMyApps(data.applications);
@@ -151,7 +151,7 @@ const ApplicationCard = ({ application }) => {
         <span style={{ fontWeight: "bold" }}>COMMENTS:</span>
         <ul className="comments-list">
           {comments.map((comment) => (
-            <li key={comment._id}>{comment.comment} - {comment.commenterId}</li>
+            <li key={comment._id}>{comment.comment}-{comment.commenterName}-{comment.dateOfAction}</li>
           ))}
         </ul>
       </div>
