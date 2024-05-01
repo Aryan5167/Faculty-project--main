@@ -55,7 +55,7 @@ const PostJob = () => {
     <div className="create-app">
       <div className="job_post page">
         <div className="container">
-          <h3>CREATE APPLICATION</h3>
+          <h3 style={{marginTop:"20px"}}>CREATE APPLICATION</h3>
           <form onSubmit={handleJobPost}>
             <div className="wrapper">
               <input
