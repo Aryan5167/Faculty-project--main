@@ -5,7 +5,7 @@ import ErrorHandler from "../middlewares/error.js";
 
 // Controller to create a new application
 export const createApplication = catchAsyncErrors(async (req, res, next) => {
-  const { subject, content,initial,taggerId} = req.body;
+  const { subject, content,initial,taggerId,applicationType} = req.body;
 
   // Validate input fields
   if (!subject || !content ) {
@@ -22,6 +22,7 @@ export const createApplication = catchAsyncErrors(async (req, res, next) => {
       content,
       initial,
       creatorId,
+      applicationType,
     });
 
     const comment = await Comment.create({

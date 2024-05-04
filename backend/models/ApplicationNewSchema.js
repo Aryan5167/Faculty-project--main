@@ -5,6 +5,8 @@ import validator from "validator";
 
 const applicationSchema = new mongoose.Schema({
   creatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  applicationType:{type:String,enum:['Application','Notice'],required:true},
+  isNotice:{type:Boolean,default:false},
   content: { type: String, required: true },
   subject: { type: String, required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },

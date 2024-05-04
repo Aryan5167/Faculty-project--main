@@ -42,7 +42,6 @@ const App = () => {
 
   return (
     < main className="min-h-screen">
-    // <div className="App">
       <BrowserRouter>
         <Header />
         <Routes>
@@ -61,7 +60,6 @@ const App = () => {
         {/* <Footer /> */}
         <Toaster />
       </BrowserRouter>
-      // </div>
     </ main>
   );
 };

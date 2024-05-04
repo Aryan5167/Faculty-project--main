@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 
-/* .App{
+.App{
   position:relative;
-} */
+}
 
 .authPage {
     display: flex;
