@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./myapplication.css";
 import ForwardModal from "./ForwardModal";
+import CommentsModal from "./CommentsModal";
 import { FaCheck, FaTimes,FaClock,FaTimesCircle } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 const MyApplications = () => {
@@ -12,7 +13,9 @@ const MyApplications = () => {
   const navigateTo = useNavigate();
   const [applications, setApplications] = useState([]);
   const [showForwardModal, setShowForwardModal] = useState(false); // State to manage modal visibility
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null); // State to store selected application for forwarding
+  const [selectedComments, setSelectedComments] = useState([]);
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -81,7 +84,15 @@ const MyApplications = () => {
   const closeForwardModal = () => {
     setShowForwardModal(false);
   };
+  const openCommentsModal = (comments) => {
 
+    setSelectedComments(comments);
+    setShowCommentsModal(true);
+  };
+
+  const closeCommentsModal = () => {
+    setShowCommentsModal(false);
+  };
   const forwardApplication = async (application, recipient, comment) => {
     try {
       await axios.put(
@@ -101,9 +112,6 @@ const MyApplications = () => {
     }
   };
 
-  // Filter applications based on their status
-  // const pendingApplications = applications.filter(app => app.status === "pending");
-  // const approvedRejectedApplications = applications.filter(app => app.status === "Approved" || app.status === "Rejected");
   const pendingApplications = applications.filter(app => app.status === "pending" && !app.isViewed);
   const viewedApplications = applications.filter(app => app.status !== "pending" || app.isViewed);
   
@@ -123,6 +131,7 @@ const MyApplications = () => {
                 approveApplication={approveApplication}
                 rejectApplication={rejectApplication}
                 openForwardModal={openForwardModal} // Pass the function to open the modal
+                openCommentsModal={openCommentsModal}
               />
             ))
           )}
@@ -142,6 +151,7 @@ const MyApplications = () => {
                 approveApplication={approveApplication}
                 rejectApplication={rejectApplication}
                 openForwardModal={openForwardModal} // Pass the function to open the modal
+                openCommentsModal={openCommentsModal}
               />
             ))
           )}
@@ -156,15 +166,23 @@ const MyApplications = () => {
           onForward={forwardApplication}
         />
       )}
+       {showCommentsModal && (
+        <CommentsModal
+          comments={selectedComments}
+          onClose={closeCommentsModal}
+        />
+      )}
     </section>
   );
 };
 
 export default MyApplications;
 
-const ApplicationCard = ({ application, approveApplication, rejectApplication, openForwardModal }) => {
+const ApplicationCard = ({ application, approveApplication, rejectApplication, openForwardModal , openCommentsModal}) => {
   const { status,isViewed } = application;
+ 
 
+ 
   // Render buttons only if the status is not "Approved" or "Rejected"
   const renderButtons = status === "pending" && !isViewed ;
  
@@ -194,7 +212,7 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
       </p>
       <p>
-        <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
+        <span className="content" style={{ fontWeight: "bold" }}>Content:</span> {application.content}
       </p>
       <p>
         <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
@@ -203,24 +221,24 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
         {new Date(application.dateOfCreation).toLocaleString()}
       </p>
-      {/* {status === "pending" &&( <p>
-        <span style={{ fontWeight: "bold" }}>Comment:</span>{application.comments[0].comment}
-       
-      </p>
-)} */}
-{status === "pending" && (
-  <div>
-     <span style={{ fontWeight: "bold" }}>Comment:</span>
-    {application.comments.map((comment, index) => (
-      <p key={index}>
-        <span style={{ fontWeight: "bold" }}>Comment {index + 1}:</span> {comment.comment}
-      </p>
-    ))}
-  </div>
-)}
-      {/* <span>Comment ID:</span> {application.comments[0]._id} */}
+    
+     <p>
+    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <div style={{ display: "inline-block" }}>
+        {application.comments && (
+            application.comments.filter(comment => comment.comment).length > 0 ? (
+                <button onClick={() => openCommentsModal(application.comments)}>View Comments</button>
+            ) : (
+                <span>No Comments</span>
+            )
+        )}
     </div>
+</p>
 
+
+
+    </div>
+  
       {renderButtons && (
         <div className="actions">
           <button onClick={() => approveApplication(application._id, application.comments[0]._id)}>Approve</button>
