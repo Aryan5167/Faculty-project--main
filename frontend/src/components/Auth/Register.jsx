@@ -177,6 +177,18 @@ const Register = () => {
                     <FaPencilAlt />
                   </div>
                 </div>
+                <div className="inputTag">
+                  <label>Batch</label>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Enter Departm"
+                      value={batch}
+                      onChange={(e) => setBatch(e.target.value)}
+                    />
+                    <FaPencilAlt />
+                  </div>
+                </div>
               </>
             )}
             {/* Additional fields for faculty */}

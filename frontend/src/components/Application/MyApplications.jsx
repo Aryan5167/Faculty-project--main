@@ -16,7 +16,7 @@ const MyApplications = () => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null); // State to store selected application for forwarding
   const [selectedComments, setSelectedComments] = useState([]);
-
+  const [type, setType] = useState([]);
   useEffect(() => {
     if (!isAuthorized) {
       navigateTo("/");
@@ -46,9 +46,9 @@ const MyApplications = () => {
 
   const approveApplication = async (applicationId, commentId) => {
     try {
-      await axios.put(
-        `http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/approve`,
-        null,
+      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/approve`,null,
+       
+       
         {
           withCredentials: true,
         }
@@ -62,8 +62,7 @@ const MyApplications = () => {
 
   const rejectApplication = async (applicationId, commentId) => {
     try {
-      await axios.put(
-        `http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/reject`,
+      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/reject`,
         null,
         {
           withCredentials: true,
@@ -84,9 +83,10 @@ const MyApplications = () => {
   const closeForwardModal = () => {
     setShowForwardModal(false);
   };
-  const openCommentsModal = (comments) => {
+  const openCommentsModal = (comments,type) => {
 
     setSelectedComments(comments);
+    setType(type);
     setShowCommentsModal(true);
   };
 
@@ -95,8 +95,8 @@ const MyApplications = () => {
   };
   const forwardApplication = async (application, recipient, comment) => {
     try {
-      await axios.put(
-        `http://localhost:4000/api/v1/applicationNew/${application._id}/forward`,
+      await axios.put(` http://localhost:4000/api/v1/applicationNew/${application._id}/forward`,
+       
         { recipientId: recipient, comment },
         {
           withCredentials: true,
@@ -170,6 +170,7 @@ const MyApplications = () => {
         <CommentsModal
           comments={selectedComments}
           onClose={closeCommentsModal}
+          type={type}
         />
       )}
     </section>
@@ -180,7 +181,22 @@ export default MyApplications;
 
 const ApplicationCard = ({ application, approveApplication, rejectApplication, openForwardModal , openCommentsModal}) => {
   const { status,isViewed } = application;
- 
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`
+          ,
+          { withCredentials: true }
+        );
+        setComments(data.comments);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    fetchComments();
+  }, [application._id]);
 
  
   // Render buttons only if the status is not "Approved" or "Rejected"
@@ -212,7 +228,9 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
       </p>
       <p>
-        <span className="content" style={{ fontWeight: "bold" }}>Content:</span> {application.content}
+     
+        <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
+        <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button>
       </p>
       <p>
         <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
@@ -225,9 +243,9 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
      <p>
     <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
     <div style={{ display: "inline-block" }}>
-        {application.comments && (
-            application.comments.filter(comment => comment.comment).length > 0 ? (
-                <button onClick={() => openCommentsModal(application.comments)}>View Comments</button>
+        {comments && (
+           comments.filter(comment => comment.comment).length > 0 ? (
+                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
             ) : (
                 <span>No Comments</span>
             )

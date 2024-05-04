@@ -1,147 +1,54 @@
-/* .comments-modal-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .comments-modal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-  
-  .comments-modal {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
-    width: 400px;
-    padding: 20px;
-    z-index: 1000;
-  }
-  
-  .comments-modal-content {
-    margin-bottom: 20px;
-  }
-  
-  .comments-modal-content h2 {
-    margin: 0;
-  }
-  
-  .comments-modal-content ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .comments-modal-content li {
-    margin-bottom: 10px;
-  }
-  
-  .comments-modal-content .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .comments-modal-content .close:hover {
-    color: #999;
-  }
-   */
-
-   /* CommentsModal.css */
-
-/* .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    
-}
-
-.modal {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
-    width: 400px;
-    position:absolute;
-}
-
-.close {
-   position:relative;
-   bottom: 0;
-    right: 0;
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    background-color:#2d5649;
-    color: white;
-    cursor: pointer;
-}
-
-h2 {
-    margin-top: 0;
-} */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 .modal {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
-    width: 400px;
-    position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 80%;
+  width: 400px;
+  position: relative;
 }
 
 .modal ul {
-  padding-left: 20px; /* Add left padding to create space for bullets */
+padding-left: 20px; /* Add left padding to create space for bullets */
 }
 .close {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    background-color: #2d5649;
-    color: white;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2d5649;
+  color: white;
 }
 
 h2 {
-    margin-top: 0;
+  margin-top: 0;
+}
+.comments-list {
+list-style: none;
+padding: 0;
+}
+
+.comment-item {
+margin-bottom: 10px;
+}
+
+.comment-content {
+font-weight: bold;
 }

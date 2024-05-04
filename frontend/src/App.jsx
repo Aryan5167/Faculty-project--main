@@ -42,6 +42,7 @@ const App = () => {
 
   return (
     < main className="min-h-screen">
+    // <div className="App">
       <BrowserRouter>
         <Header />
         <Routes>
@@ -57,9 +58,10 @@ const App = () => {
           <Route path="/application/applicationTag" element={<TagPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
         <Toaster />
       </BrowserRouter>
+      // </div>
     </ main>
   );
 };

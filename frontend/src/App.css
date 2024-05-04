@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+/* .App{
+  position:relative;
+} */
+
 .authPage {
     display: flex;
     min-width: 1500px;

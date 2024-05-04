@@ -183,8 +183,8 @@ const RegisterNew = () => {
               </>
             )}
             {/* Additional fields for faculty */}
-            {role === "Faculty" && (
-              <>
+            
+              
                 <div className="inputTag">
                   <label>Department</label>
                   <div>
@@ -204,6 +204,8 @@ const RegisterNew = () => {
                     <FaPencilAlt />
                   </div>
                 </div>
+              {role === "Faculty" && (
+                  <>
                 <div className="inputTag">
                   <label>Cabin Number</label>
                   <div>

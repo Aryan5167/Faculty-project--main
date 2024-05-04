@@ -1,15 +1,19 @@
 
+
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { useNavigate } from "react-router-dom";
 import "./MyJobs.css";
+import CommentsModal from "../Application/CommentsModal";
 
 const MyJobs = () => {
   const [myApps, setMyApps] = useState([]);
   const { isAuthorized } = useContext(Context);
-
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  
+  const [selectedComments, setSelectedComments] = useState([]);
   useEffect(() => {
     const fetchApplications = async () => {
       try {
@@ -28,8 +32,8 @@ const MyJobs = () => {
 
   const withDrawApplication = async (applicationId) => {
     try {
-      const confirmation = window.confirm("Are you sure you want to withdraw this application?");
-      if (!confirmation) return; // Don't withdraw if user cancels
+      // const confirmation = window.confirm("Are you sure you want to withdraw this application?");
+      // if (confirmation) return; // Don't withdraw if user cancels
       await axios.put(
         `http://localhost:4000/api/v1/applicationNew/${applicationId}/withdraw`,
         null,
@@ -43,7 +47,15 @@ const MyJobs = () => {
       toast.error(error.response.data.message);
     }
   };
+  const openCommentsModal = (comments) => {
 
+    setSelectedComments(comments);
+    setShowCommentsModal(true);
+  };
+
+  const closeCommentsModal = () => {
+    setShowCommentsModal(false);
+  };
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
@@ -75,16 +87,23 @@ const MyJobs = () => {
                 key={application._id}
                 application={application}
                 withDrawApplication={withDrawApplication}
+                openCommentsModal={openCommentsModal}
               />
             ))}
           </div>
         )}
       </div>
+      {showCommentsModal && (
+        <CommentsModal
+          comments={selectedComments}
+          onClose={closeCommentsModal}
+        />
+      )}
     </div>
   );
 };
 
-const ApplicationCard = ({ application, withDrawApplication }) => {
+const ApplicationCard = ({ application, withDrawApplication,openCommentsModal }) => {
   const [comments, setComments] = useState([]);
   const [isWithdrawn, setIsWithdrawn] = useState(false);
 
@@ -154,7 +173,7 @@ const ApplicationCard = ({ application, withDrawApplication }) => {
               <span style={{ fontWeight: "bold" }}>DESCRIPTION:</span>
               <textarea rows={5} value={application.content} readOnly className="textarea-field" />
             </div>
-            <div>
+            {/* <div>
               <span style={{ fontWeight: "bold" }}>COMMENTS:</span>
               {comments.length === 0 ? (
                 <p>No comments for this application.</p>
@@ -165,7 +184,19 @@ const ApplicationCard = ({ application, withDrawApplication }) => {
                   ))}
                 </ul>
               )}
-            </div>
+            </div> */}
+            <p>
+    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <div style={{ display: "inline-block" }}>
+        {comments && (
+            comments.filter(comment => comment.comment).length > 0 ? (
+                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+            ) : (
+                <span>No Comments</span>
+            )
+        )}
+    </div>
+</p>
           </div>
         </div>
       </div>
@@ -174,3 +205,5 @@ const ApplicationCard = ({ application, withDrawApplication }) => {
 };
 
 export default MyJobs;
+
+ 

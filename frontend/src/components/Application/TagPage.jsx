@@ -9,9 +9,15 @@ import CommentsModal from "./CommentsModal";
   
 
 const FilteredApplications = () => {
-const navigateTo = useNavigate();
-const { isAuthorized } = useContext(Context);
-  const [applications, setApplications] = useState([]);
+// const navigateTo = useNavigate();
+// const { isAuthorized } = useContext(Context);
+//   const [applications, setApplications] = useState([]);
+//   const [showCommentsModal, setShowCommentsModal] = useState(false);
+//   const [selectedComments, setSelectedComments] = useState([]);
+  const navigateTo = useNavigate();
+  const { isAuthorized, user } = useContext(Context);
+  const [ongoingApplications, setOngoingApplications] = useState([]);
+  const [allApplications, setAllApplications] = useState([]);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedComments, setSelectedComments] = useState([]);
 
@@ -20,18 +26,67 @@ const { isAuthorized } = useContext(Context);
       navigateTo("/");
     } else {
       try {
-        axios
-          .get("http://localhost:4000/api/v1/applicationNew/getalltag", {
-            withCredentials: true,
-          })
-          .then((res) => {
-            setApplications(res.data.applications);
-          });
+        // axios
+        //   .get("http://localhost:4000/api/v1/applicationNew/getalltag", {
+        //     withCredentials: true,
+        //   })
+        //   .then((res) => {
+        //     setApplications(res.data.applications);
+        //   });
+        fetchOngoingApplications();
+        if (user.level === "Dean") {
+          fetchAllApplications();
+        } 
+        else if (user.level === "HOD") {
+          fetchDepartmentApplications(user.department);
+        }
       } catch (error) {
         toast.error(error.response.data.message);
       }
     }
   }, [isAuthorized, navigateTo]);
+
+  const fetchOngoingApplications = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/api/v1/applicationNew/getalltag",
+        {
+          withCredentials: true,
+        }
+      );
+      setOngoingApplications(response.data.applications);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const fetchAllApplications = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/api/v1/applicationNew/getallfordean",
+        {
+          withCredentials: true,
+        }
+      );
+      setAllApplications(response.data.allApplications);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const fetchDepartmentApplications = async (department) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/v1/applicationNew/getDepartmentApplications/${department}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setAllApplications(response.data.departmentApplications);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   const openCommentsModal = (comments) => {
 
@@ -43,25 +98,40 @@ const { isAuthorized } = useContext(Context);
     setShowCommentsModal(false);
   };
   return (
-    <div  style={{ height: 'calc(100vh - 80px)' }}>
+    <div style={{ height: "calc(100vh - 80px)" }}>
     <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ONGOING APPLICATIONS</h4>
-    <div className="application_cards mt-24" style={{display: "flex", flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}}>
-      {applications.length === 0 ? (
-        <h2 style={{ marginLeft: "20px" }}>No Applications Found</h2>
+    <div className="application_cards mt-24" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
+      {ongoingApplications.length === 0 ? (
+        <h2 style={{ marginLeft: "20px" }}>No Ongoing Applications Found</h2>
       ) : (
-        applications.map((application) => (
-          <ApplicationCard key={application._id} application={application}  openCommentsModal={openCommentsModal} />
+        ongoingApplications.map((application) => (
+          <ApplicationCard key={application._id} application={application} openCommentsModal={openCommentsModal} userRole={user.role} />
         ))
       )}
     </div>
     {showCommentsModal && (
-        <CommentsModal
-          comments={selectedComments}
-          onClose={closeCommentsModal}
-        />
-      )}
-      </div>
-  );
+      <CommentsModal
+        comments={selectedComments}
+        onClose={closeCommentsModal}
+      />
+    )}
+
+    {(user.level === "Dean" || user.level === "HOD") && (
+      <>
+        <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ALL APPLICATIONS</h4>
+        <div className="application_cards mt-24" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
+          {allApplications?.length === 0 ? (
+            <h2 style={{ marginLeft: "20px" }}>No All Applications Found</h2>
+          ) : (
+            allApplications?.map((application) => (
+              <ApplicationCard key={application._id} application={application} openCommentsModal={openCommentsModal} userRole={user.role} />
+            ))
+          )}
+        </div>
+      </>
+    )}
+  </div>
+);
 };
 
 const ApplicationCard = ({ application , openCommentsModal}) => {

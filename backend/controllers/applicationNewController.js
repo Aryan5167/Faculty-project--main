@@ -249,6 +249,60 @@ export const forwardApplication = async (req, res, next) => {
   }
 };
 
+
+export const getDepartmentApplicationsForHOD = catchAsyncErrors(async (req, res, next) => {
+  try {
+    // const department = req.user.department; // Assuming department is stored in user object
+    const department=req.params.department
+    const departmentApplications = await ApplicationNew.aggregate([
+      {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "initial",
+          foreignField: "_id",
+          as: "initialUser"
+        }
+      },
+      {
+        $match: {
+          $or: [
+            { "creator.department": department },
+            { "initialUser.department": department }
+          ]
+        }
+      }
+    ]);
+    
+    res.status(200).json({ departmentApplications });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
+});
+
+export const getAllApplicationsForDean = catchAsyncErrors(async (req, res, next) => {
+  try {
+    if (!req.user || !req.user._id) {
+      throw new ErrorHandler("User information not found in request.", 400);
+    }
+    const allApplications = await ApplicationNew.find();
+    res.status(200).json({
+      success: true,
+      count: allApplications.length,
+      allApplications,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
+});
+
 export const getAllApplicationByTag = catchAsyncErrors(async (req, res, next) => {
   try {
     if (!req.user || !req.user._id) {
