@@ -88,14 +88,41 @@ export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
   }
 })
 
-export const getCommentByApplication=catchAsyncErrors((async(req,res,next)=>{
+export const getCommentByApplication = catchAsyncErrors(async (req, res, next) => {
   try {
-    const comments = await Comment.find({ applicationId: req.params.applicationId });
-    res.status(200).json({ comments:comments });
+    const comments = await Comment.find({ applicationId: req.params.applicationId })
+      .populate('commenterId', 'name'); // Populate the commenterId field from the User model and include only the 'name' field
+
+    // Map through the comments array to extract the commenter's name and format the date
+    const formattedComments = comments.map(comment => {
+      // Extract the commenter's name
+      const commenterName = comment.commenterId.name;
+
+      // Format the date of action to yyyy-mm-dd format with time
+      const dateOfAction = comment.dateOfAction.toISOString().split('T')[0];
+      const time = comment.dateOfAction.toISOString().split('T')[1].split('.')[0];
+      const formattedDateOfAction = `${dateOfAction} ${time}`;
+
+
+      return {
+        _id: comment._id,
+        applicationId: comment.applicationId,
+        senderId: comment.senderId,
+        tagId: comment.tagId,
+        comment: comment.comment,
+        status: comment.status,
+        isViewed: comment.isViewed,
+        dateOfAction: formattedDateOfAction,
+        commenterName: commenterName // Extract the commenter's name
+      };
+    });
+
+    res.status(200).json({ comments: formattedComments });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch comments" });
   }
-}))
+});
+
 
 export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
   try {
