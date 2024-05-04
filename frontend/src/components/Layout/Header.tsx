@@ -7,7 +7,7 @@ import { cn } from "../../lib/utils";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
+import { vcNavItems } from "../../data/vcNavItems";
 const Header = () => {
   //@ts-expect-error
   const { isAuthorized, setIsAuthorized, user } = useContext(Context);
@@ -49,8 +49,22 @@ const Header = () => {
       <div className="hidden md:flex items-center">
         <nav className={"flex gap-x-6 lg:gap-x-12"}>
           {user &&
-            user.role === "Faculty" &&
+            user.role === "Faculty" && user.level!=="VC" &&
             facultyNavItems.map(({ text, href }, index) => (
+              <Link
+                to={href}
+                key={index}
+                className={cn(
+                  " text-l text-slate-200 hover:underline hover:underline-offset-4"
+                )}
+              >
+                {text}
+              </Link>
+            ))}
+          {user &&
+            user.role === "Faculty" &&
+              user.level === "VC" && 
+            vcNavItems.map(({ text, href }, index) => (
               <Link
                 to={href}
                 key={index}

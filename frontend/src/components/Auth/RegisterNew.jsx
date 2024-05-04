@@ -100,6 +100,8 @@ const RegisterNew = () => {
                   <option value="HOD">HOD</option>
                   <option value="Professor">Professor</option>
                   <option value="Dean">Dean</option>
+                  <option value="VC">Vice Chancellor</option>
+                  
                </select>
                <FaRegUser />
               </div>
@@ -194,6 +196,7 @@ const RegisterNew = () => {
                   <option value="IT">IT</option>
                   <option value="ECE">ECE</option>
                    <option value="BIOTECH">BIOTECH</option>
+                   <option value="ADMIN">ADMIN</option>
                 </select>
                     {/* <input
                       type="text"

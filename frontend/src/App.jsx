@@ -19,6 +19,7 @@ import NotFound from "./components/NotFound/NotFound";
 import MyJobs from "./components/Job/MyJobs";
 import TagPage from "./components/Application/TagPage";
 import Header from "./components/Layout/Header";
+import ApproveNotice from "./components/ApproveNotice/ApproveNotice";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/job/post" element={<PostJob />} />
            <Route path="/jobs/me" element={<MyJobs />} /> 
           <Route path="/application/applicationTag" element={<TagPage />} />
+          <Route path="/ApproveNotice" element={<ApproveNotice />}></Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
         {/* <Footer /> */}
