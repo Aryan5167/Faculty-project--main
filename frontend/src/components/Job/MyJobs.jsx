@@ -123,7 +123,7 @@ const ApplicationCard = ({ application, withDrawApplication }) => {
               <span className="text-field">{application.subject}</span>
             </div>
             {!isWithdrawn && application.status=='pending' && ( // Render the button only if the application is not withdrawn
-              <button className="with" style={{ backgroundColor: "#1a3e36" }} onClick={() => handleWithdraw(application._id)}>Withdraw</button>
+              <button className="with" onClick={() => handleWithdraw(application._id)}>Withdraw</button>
             )}
             {/* <button className="with" style={{ backgroundColor: "grey" }} onClick={() => withDrawApplication(application._id)}>Withdraw</button> */}
             <div>
