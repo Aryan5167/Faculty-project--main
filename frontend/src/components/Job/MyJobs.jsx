@@ -77,7 +77,7 @@ const MyJobs = () => {
   return (
     <div className="myApplications page">
       <div className="container">
-        <h1>Your Applications</h1>
+        <h4>Your Applications</h4>
         {myApps.length === 0 ? (
           <p>You haven't created any applications yet!</p>
         ) : (
@@ -186,7 +186,7 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
               )}
             </div> */}
             <p>
-    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
     <div style={{ display: "inline-block" }}>
         {comments && (
             comments.filter(comment => comment.comment).length > 0 ? (

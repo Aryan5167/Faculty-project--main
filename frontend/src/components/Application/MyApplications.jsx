@@ -227,10 +227,12 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
       <p>
         <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
       </p>
-      <p>
+      <p style={{ display: "flex",alignItems: "center"}}>
      
         <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
-        <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button>
+       
+        <button onClick={() => openCommentsModal(application.content,"app")}>&nbsp;View Content</button>
+          
       </p>
       <p>
         <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
@@ -241,7 +243,7 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
       </p>
     
      <p>
-    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
     <div style={{ display: "inline-block" }}>
         {comments && (
            comments.filter(comment => comment.comment).length > 0 ? (
