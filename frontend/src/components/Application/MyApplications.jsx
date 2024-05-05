@@ -31,11 +31,12 @@ const MyApplications = () => {
         withCredentials: true,
       });
       const { applications } = response.data;
-
+     
     // Set applications with updated isViewed property
     const updatedApplications = applications.map(app => ({
       ...app,
       isViewed: app.isViewed || false, // Set isViewed to false if it doesn't exist
+      creatorName: app.creatorName,
     }));
     setApplications(updatedApplications);
       // setApplications(response.data.applications);
@@ -180,7 +181,7 @@ const MyApplications = () => {
 export default MyApplications;
 
 const ApplicationCard = ({ application, approveApplication, rejectApplication, openForwardModal , openCommentsModal}) => {
-  const { status,isViewed } = application;
+  const { status,isViewed ,creatorName} = application;
   const [comments, setComments] = useState([]);
   useEffect(() => {
     const fetchComments = async () => {
@@ -224,6 +225,9 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
          )}
       </div>
     <div className="detail">
+    <p>
+        <span style={{ fontWeight: "bold" }}>Created By:</span> {creatorName}
+      </p>
       <p>
         <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
       </p>
