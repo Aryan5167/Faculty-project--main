@@ -76,7 +76,7 @@ const MyJobs = () => {
 
   return (
     <div className="myApplications page">
-      <div className="container">
+      <div className="my_container">
         <h4>Your Applications</h4>
         {myApps.length === 0 ? (
           <p>You haven't created any applications yet!</p>

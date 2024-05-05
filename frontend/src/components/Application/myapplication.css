@@ -1,6 +1,4 @@
-.myAplications{
-  align-items: center;
-}
+
  .application_card {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -72,6 +70,6 @@ h2 {
   text-transform: uppercase;
   text-align:center;
 }
-.container{
+.my_container{
   align-items: center;
 }

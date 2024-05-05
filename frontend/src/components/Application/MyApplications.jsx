@@ -117,7 +117,7 @@ const MyApplications = () => {
   
   return (
     <section className="my_applications page">
-      <div className="container" >
+      <div className="my_container" >
       <h4>PENDING APPLICATIONS</h4>
         <div className="pending_applications" style={{display:"flex",flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}} >
          
