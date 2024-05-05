@@ -146,12 +146,23 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
             )}
             {/* <button className="with" style={{ backgroundColor: "grey" }} onClick={() => withDrawApplication(application._id)}>Withdraw</button> */}
             <div>
-              {application.status === "Rejected" && (
+            {application.applicationType === 'Notice' && application.isNotice === true && (
+              <button className="status-button" style={{ backgroundColor: "green" }} disabled>
+                  Approved  
+                </button>
+            )}
+            {application.applicationType === 'Notice' && application.status === 'Rejected' && (
+              <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
+                  Rejected
+                </button>
+            )}
+
+              {application.applicationType=== 'Application' && application.status === "Rejected" && (
                 <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
                   Rejected
                 </button>
               )}
-              {application.status === "Approved" && (
+              {application.applicationType=== 'Application' && application.status === "Approved" && (
                 <button className="status-button" style={{ backgroundColor: "green" }} disabled>
                   Approved
                 </button>
@@ -161,6 +172,12 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
                   Pending
                 </button>
               )}
+              {application.status === "alert" && (
+                <button className="status-button" style={{ backgroundColor: "#5ab3ff" }} disabled>
+                 Alert
+                </button>
+              )}
+
                {application.status === "Withdrawn" && (
                 <button className="status-button" style={{ backgroundColor: "grey" }} disabled>
                   Withdrawn

@@ -79,6 +79,17 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
   }
 });
 
+export const getNoticeApplications=catchAsyncErrors(async(req,res,next)=>{
+  try{
+    const Myapplications=await ApplicationNew.find({applicationType:"Notice", status:"Approved"});
+    res.status(200).json({applications:Myapplications})
+  }
+  catch(error){
+    res.status(500).json({ message: "Failed to fetch Notices" });
+  }
+ 
+})
+
 
 export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
   try { 
@@ -88,6 +99,7 @@ export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
     res.status(500).json({ message: "Failed to fetch applications" });
   }
 })
+
 
 export const getCommentByApplication = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -178,6 +190,38 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+
+export const approveNoticeApplication = async (req, res, next) => {
+  try {
+      const { applicationId } = req.params;
+
+      // Update application status to 'approved'
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice: true});
+
+      // Update comment status to 'approved'
+      // await Comment.findByIdAndUpdate(commentId, { status: 'approved',isViewed:true });
+
+      res.status(200).json({ success:true,message: 'Notice application approved successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to approve notice application' });
+  }
+};
+
+export const rejectNoticeApplication = async (req, res, next) => {
+  try {
+      const { applicationId } = req.params;
+
+      // Update application status to 'rejected'
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice:false });
+
+      // Update comment status to 'rejected'
+      // await Comment.findByIdAndUpdate(commentId, { status: 'rejected',isViewed:true });
+
+      res.status(200).json({ message: 'Notice application rejected successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to reject notice application' });
+  }
+};
 
 export const approveApplication = async (req, res, next) => {
   const { applicationId, commentId } = req.params;
@@ -347,5 +391,29 @@ export const getAllApplicationByTag = catchAsyncErrors(async (req, res, next) =>
   }
 });
 
+export const changeApplicationStatus = async (req, res, next) => {
+  const { applicationId } = req.params;
+  //  const { status } = req.body;
+
+  try {
+    // Find the application by ID
+    const application = await ApplicationNew.findById(applicationId);
+
+    // Check if the application exists
+    if (!application) {
+      return next(new ErrorHandler("Application not found", 404));
+    }
+
+    // Update the status of the application
+    application.status = "alert";
+    await application.save();
+
+    // Respond with success message
+    res.status(200).json({ success: true, message: "Application status updated successfully" });
+  } catch (error) {
+    // Handle errors
+    return next(new ErrorHandler(error.message, 500));
+  }
+};
 
 // Other controller functions for updating, deleting, and retrieving applications can be added here

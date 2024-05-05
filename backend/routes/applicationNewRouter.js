@@ -1,5 +1,5 @@
 import express from "express";
-import { approveApplication, createApplication, forwardApplication,getAllApplicationsForDean,getDepartmentApplicationsForHOD, getAllApplicationByTag, getAllApplications , getMyApplications, getApplicationsByCommenterId, rejectApplication, withDrawApplication,getCommentByApplication} from "../controllers/applicationNewController.js";
+import { approveApplication, createApplication,rejectNoticeApplication,changeApplicationStatus, forwardApplication,approveNoticeApplication,getAllApplicationsForDean,getNoticeApplications,getDepartmentApplicationsForHOD, getAllApplicationByTag, getAllApplications , getMyApplications, getApplicationsByCommenterId, rejectApplication, withDrawApplication,getCommentByApplication} from "../controllers/applicationNewController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -16,7 +16,13 @@ router.get("/getMyApplications",isAuthenticated,getMyApplications)
 router.get("/getCommentsByApplication/:applicationId",isAuthenticated,getCommentByApplication)
 router.get("/getDepartmentApplications/:department",isAuthenticated,getDepartmentApplicationsForHOD)
 router.get("/getallfordean",isAuthenticated,getAllApplicationsForDean)
+router.get("/getNoticeApplications",isAuthenticated,getNoticeApplications)
+// Route to approve a notice application
+router.put('/:applicationId/approveNotice', isAuthenticated,approveNoticeApplication);
 
+// Route to reject a notice application
+router.put('/:applicationId/rejectNotice', isAuthenticated,rejectNoticeApplication);
 
+router.put("/changeStatus/:applicationId",isAuthenticated,changeApplicationStatus)
 
 export default router;

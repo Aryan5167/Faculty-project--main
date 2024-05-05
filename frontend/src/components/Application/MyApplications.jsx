@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./myapplication.css";
 import ForwardModal from "./ForwardModal";
 import CommentsModal from "./CommentsModal";
-import { FaCheck, FaTimes,FaClock,FaTimesCircle } from 'react-icons/fa';
+import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 const MyApplications = () => {
   const { isAuthorized } = useContext(Context);
@@ -208,6 +208,9 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
     <div className="application_card">
     
      <div className="icon-container" style={{ marginLeft: "auto" }}>
+     {status === "alert" && (
+          <FaBell style={{color: "#ffcd00", cursor: "pointer" }} />
+        )}
         {status === "Rejected" && (
           <FaTimes style={{color: "red", cursor: "pointer" }} />
         )}
