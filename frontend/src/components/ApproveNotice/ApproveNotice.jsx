@@ -86,15 +86,15 @@ const ApproveNotice = () => {
             <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
           </p>
           <p>
-            <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
+            <span style={{ fontWeight: "bold" }}>Status:</span> {application.noticeStatus}
           </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
             {new Date(application.dateOfCreation).toLocaleString()}
           </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
-            <div style={{ display: "inline-block" }}>
+          {/* <p> */}
+            {/* <span style={{ fontWeight: "bold" }}>Comments:</span>{" "} */}
+            {/* <div style={{ display: "inline-block" }}>
               {comments && (
                 comments.filter(comment => comment.comment).length > 0 ? (
                   <button onClick={() => openCommentsModal(comments, "notice")}>View Comments</button>
@@ -102,8 +102,8 @@ const ApproveNotice = () => {
                   <span>No Comments</span>
                 )
               )}
-            </div>
-          </p>
+            </div> */}
+          {/* </p> */}
         </div>
         
         {renderButtons && (
@@ -120,7 +120,7 @@ const ApproveNotice = () => {
   };
 
   const pendingNotices = noticeApps.filter(notice => notice.status === "Approved" && !notice.isNotice);
-  const pastNotices = noticeApps.filter(notice => notice.status === "Approved" || notice.isNotice);
+  const pastNotices = noticeApps.filter(notice => notice.noticeStatus === "Approved" || notice.noticeStatus=== "Rejected" || notice.isNotice);
   
   return (
     <section className="my_notices page">

@@ -146,12 +146,12 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
             )}
             {/* <button className="with" style={{ backgroundColor: "grey" }} onClick={() => withDrawApplication(application._id)}>Withdraw</button> */}
             <div>
-            {application.applicationType === 'Notice' && application.isNotice === true && (
+            {application.applicationType === 'Notice' && application.noticeStatus === "Approved" && (
               <button className="status-button" style={{ backgroundColor: "green" }} disabled>
                   Approved  
                 </button>
             )}
-            {application.applicationType === 'Notice' && application.status === 'Rejected' && (
+            {application.applicationType === 'Notice' && application.noticeStatus === 'Rejected' && (
               <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
                   Rejected
                 </button>

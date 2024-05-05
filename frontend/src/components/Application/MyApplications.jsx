@@ -183,6 +183,8 @@ export default MyApplications;
 const ApplicationCard = ({ application, approveApplication, rejectApplication, openForwardModal , openCommentsModal}) => {
   const { status,isViewed ,creatorName} = application;
   const [comments, setComments] = useState([]);
+  const {applicationType,noticeStatus}=application
+  
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -214,7 +216,7 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         {status === "Rejected" && (
           <FaTimes style={{color: "red", cursor: "pointer" }} />
         )}
-        {status === "Approved" && (
+        {status === "Approved"  && (
           <FaCheck style={{ color: "green", cursor: "pointer" }} />
         )}
       {status === "Withdrawn" && (
@@ -241,9 +243,17 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
         <button onClick={() => openCommentsModal(application.content,"app")}>&nbsp;View Content</button>
           
       </p>
+      {applicationType == "Application" && 
       <p>
         <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
-      </p>
+      </p>}
+
+      {applicationType == "Notice" && 
+      <p>
+        <span style={{ fontWeight: "bold" }}>Status:</span> {application.noticeStatus}
+      </p>}
+      
+
       <p>
         <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
         {new Date(application.dateOfCreation).toLocaleString()}

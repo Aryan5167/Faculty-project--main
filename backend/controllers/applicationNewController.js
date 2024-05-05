@@ -196,7 +196,7 @@ export const approveNoticeApplication = async (req, res, next) => {
       const { applicationId } = req.params;
 
       // Update application status to 'approved'
-      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice: true});
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice: true, noticeStatus:"Approved"});
 
       // Update comment status to 'approved'
       // await Comment.findByIdAndUpdate(commentId, { status: 'approved',isViewed:true });
@@ -212,7 +212,7 @@ export const rejectNoticeApplication = async (req, res, next) => {
       const { applicationId } = req.params;
 
       // Update application status to 'rejected'
-      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice:false });
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice:true,noticeStatus:"Rejected"});
 
       // Update comment status to 'rejected'
       // await Comment.findByIdAndUpdate(commentId, { status: 'rejected',isViewed:true });
