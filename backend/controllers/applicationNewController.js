@@ -144,6 +144,14 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
         },
       },
       {
+        $lookup: {
+          from: "users", // The name of the user collection
+          localField: "creatorId", // Field from the application schema
+          foreignField: "_id", // Field from the user schema
+          as: "creator", // Alias for the joined creator
+        },
+      },
+      {
         $match: {
           "comments.commenterId": userId, // Match comments by commenter ID
         },
@@ -153,7 +161,7 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
     const modifiedApplications = applications.map(application => {
       const comment = application.comments.find(comment => String(comment.commenterId) === String(userId));
       if (comment) {
-        return { ...application, isViewed: comment.isViewed };
+        return { ...application, isViewed: comment.isViewed, creatorName: application.creator[0].name };
       } else {
         return application;
       }

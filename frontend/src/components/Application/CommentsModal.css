@@ -19,22 +19,28 @@
   max-width: 80%;
   width: 400px;
   position: relative;
+  /* align-items:center; */
 }
 
 .modal ul {
 padding-left: 20px; /* Add left padding to create space for bullets */
 }
 .close {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  cursor: pointer;
+  /* position: absolute;
+   bottom: 10px; 
+   right: 10px;  */
+  /* left: 50%; */
+  /* cursor: pointer;*/
   padding: 10px 20px;
   font-size: 16px;
   border: none;
   border-radius: 4px;
   background-color: #2d5649;
-  color: white;
+  color: white; 
+ text-align:center;
+ width:25%;
+ margin:auto;
+ margin-top:10px;
 }
 
 h2 {

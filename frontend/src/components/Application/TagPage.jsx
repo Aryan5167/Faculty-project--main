@@ -20,7 +20,7 @@ const FilteredApplications = () => {
   const [allApplications, setAllApplications] = useState([]);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedComments, setSelectedComments] = useState([]);
-
+  const [type, setType] = useState([]);
   useEffect(() => {
     if (!isAuthorized) {
       navigateTo("/");
@@ -88,17 +88,18 @@ const FilteredApplications = () => {
     }
   };
 
-  const openCommentsModal = (comments) => {
+  const openCommentsModal = (comments,type) => {
 
     setSelectedComments(comments);
     setShowCommentsModal(true);
+    setType(type);
   };
 
   const closeCommentsModal = () => {
     setShowCommentsModal(false);
   };
   return (
-    <div style={{ height: "calc(100vh - 80px)" }}>
+    <div style={{ height: "calc(100vh - 80px)" ,marginLeft:"20px"}}>
     <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ONGOING APPLICATIONS</h4>
     <div className="application_cards mt-24" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
       {ongoingApplications.length === 0 ? (
@@ -113,6 +114,7 @@ const FilteredApplications = () => {
       <CommentsModal
         comments={selectedComments}
         onClose={closeCommentsModal}
+        type={type}
       />
     )}
 
@@ -136,7 +138,22 @@ const FilteredApplications = () => {
 
 const ApplicationCard = ({ application , openCommentsModal}) => {
     // const { status } = application;
+    const [comments, setComments] = useState([]);
+    useEffect(() => {
+      const fetchComments = async () => {
+        try {
+          const { data } = await axios.get(
+            `http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`,
+            { withCredentials: true }
+          );
+          setComments(data.comments);
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      };
   
+      fetchComments();
+    }, [application._id]);
     
   
     return (
@@ -145,9 +162,11 @@ const ApplicationCard = ({ application , openCommentsModal}) => {
           <p>
             <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
           </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
-          </p>
+        <p>
+     
+        <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
+        <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button>
+      </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
           </p>
@@ -156,11 +175,11 @@ const ApplicationCard = ({ application , openCommentsModal}) => {
             {new Date(application.dateOfCreation).toLocaleString()}
           </p>
           <p>
-    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
     <div style={{ display: "inline-block" }}>
-        {application.comments && (
-            application.comments.filter(comment => comment.comment).length > 0 ? (
-                <button onClick={() => openCommentsModal(application.comments)}>View Comments</button>
+        {comments && (
+           comments.filter(comment => comment.comment).length > 0 ? (
+                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
             ) : (
                 <span>No Comments</span>
             )
