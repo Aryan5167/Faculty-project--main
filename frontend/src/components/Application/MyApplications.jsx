@@ -210,26 +210,62 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
     <div className="application_card">
     
      <div className="icon-container" style={{ marginLeft: "auto" }}>
-     {status === "alert" && (
-          <FaBell style={{color: "#ffcd00", cursor: "pointer" }} />
-        )}
-        {status === "Rejected" && (
-          <FaTimes style={{color: "red", cursor: "pointer" }} />
-        )}
-        {status === "Approved"  && (
-          <FaCheck style={{ color: "green", cursor: "pointer" }} />
-        )}
-      {status === "Withdrawn" && (
-          <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
-        )}
-       {status === "pending" && isViewed==true && (
-           <IoMdArrowForward style={{ color: "black", cursor: "pointer",fontSize:"18px" }} />
-         )} 
-          {status === "pending" && isViewed==false && (
-           <FaClock style={{ color: "grey", cursor: "pointer" }} />
-         )}
+         {applicationType === "Application" && (
+  <>
+    {status === "alert" && (
+      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+    )}
+    {status === "Rejected" && (
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {status === "Approved" && (
+      <FaCheck style={{ color: "green", cursor: "pointer" }} />
+    )}
+    {status === "Withdrawn" && (
+      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    {status === "pending" && isViewed === true && (
+      <IoMdArrowForward
+        style={{ color: "black", cursor: "pointer", fontSize: "18px" }}
+      />
+    )}
+    {status === "pending" && isViewed === false && (
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+  </>
+)}
+
+{applicationType === "Notice" && (
+  <>
+    {noticeStatus === "Rejected" && (
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {noticeStatus === "Approved" && (
+      <FaCheck style={{ color: "green", cursor: "pointer" }} />
+    )}
+    {status === "Rejected" && noticeStatus=="Pending" &&(
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {status === "Approved" && noticeStatus=="Pending" &&(
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    {status === "pending" && noticeStatus=="Pending" &&(
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    {status === "alert" && noticeStatus=="Pending" &&(
+      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+    )}
+    {status === "Withdrawn" && noticeStatus=="Pending" &&(
+      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+    )}
+  </>)}
+
       </div>
     <div className="detail">
+    <p>
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </p>
     <p>
         <span style={{ fontWeight: "bold" }}>Created By:</span> {creatorName}
       </p>

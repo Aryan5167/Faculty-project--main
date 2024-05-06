@@ -138,6 +138,11 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
         <div className="content">
           <div className="short_fields">
             <div>
+            <div style={{marginLeft:"380px"}}> 
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </div>  
+           
               <span style={{ fontWeight: "bold", marginRight: "5px" }}>TITLE:</span>
               <span className="text-field">{application.subject}</span>
             </div>
@@ -167,7 +172,17 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
                   Approved
                 </button>
               )}
-              {application.status === "pending" && (
+              {application.status === "pending" && application.applicationType==="Application" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "Approved" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "pending" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
