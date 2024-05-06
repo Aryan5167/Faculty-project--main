@@ -95,12 +95,8 @@ const ApproveNotice = () => {
     {status === "Withdrawn" && (
       <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
     )}
-    {status === "pending" && isViewed === true && (
-      <IoMdArrowForward
-        style={{ color: "black", cursor: "pointer", fontSize: "18px" }}
-      />
-    )}
-    {status === "pending" && isViewed === false && (
+    
+    {status === "pending"  && (
       <FaClock style={{ color: "grey", cursor: "pointer" }} />
     )}
   </>
@@ -133,6 +129,10 @@ const ApproveNotice = () => {
 
       </div>
         <div className="detail">
+        <p>
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
           </p>

@@ -263,6 +263,10 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
       </div>
     <div className="detail">
     <p>
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </p>
+    <p>
         <span style={{ fontWeight: "bold" }}>Created By:</span> {creatorName}
       </p>
       <p>

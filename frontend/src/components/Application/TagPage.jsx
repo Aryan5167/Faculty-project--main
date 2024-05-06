@@ -5,15 +5,11 @@
  import { Context } from "../../main";
  import { useNavigate } from "react-router-dom";
  import CommentsModal from "./CommentsModal";
- 
-   
+ import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell } from 'react-icons/fa';
+import { IoMdArrowForward } from 'react-icons/io';
  
  const FilteredApplications = () => {
- // const navigateTo = useNavigate();
- // const { isAuthorized } = useContext(Context);
- //   const [applications, setApplications] = useState([]);
- //   const [showCommentsModal, setShowCommentsModal] = useState(false);
- //   const [selectedComments, setSelectedComments] = useState([]);
+
    const navigateTo = useNavigate();
    const { isAuthorized, user } = useContext(Context);
    const [ongoingApplications, setOngoingApplications] = useState([]);
@@ -156,7 +152,9 @@
  };
  
  const ApplicationCard = ({ application , openCommentsModal,onAlertButtonClick,userLevel}) => {
-     // const { status } = application;
+    //  const { status } = application;
+    const {applicationType,noticeStatus,status}=application
+    // {console.log(sr)}
      const [comments, setComments] = useState([]);
      useEffect(() => {
        const fetchComments = async () => {
@@ -179,7 +177,59 @@
    
      return (
        <div className="application_card">
+          <div className="icon-container" style={{ marginLeft: "auto" }}>
+         {applicationType === "Application" && (
+  <>
+    {status === "alert" && (
+      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+    )}
+    {status === "Rejected" && (
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {status === "Approved" && (
+      <FaCheck style={{ color: "green", cursor: "pointer" }} />
+    )}
+    {status === "Withdrawn" && (
+      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    
+    {status === "pending" && (
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+  </>
+)}
+
+{applicationType === "Notice" && (
+  <>
+    {noticeStatus === "Rejected" && (
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {noticeStatus === "Approved" && (
+      <FaCheck style={{ color: "green", cursor: "pointer" }} />
+    )}
+    {status === "Rejected" && noticeStatus=="Pending" &&(
+      <FaTimes style={{ color: "red", cursor: "pointer" }} />
+    )}
+    {status === "Approved" && noticeStatus=="Pending" &&(
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    {status === "pending" && noticeStatus=="Pending" &&(
+      <FaClock style={{ color: "grey", cursor: "pointer" }} />
+    )}
+    {status === "alert" && noticeStatus=="Pending" &&(
+      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+    )}
+    {status === "Withdrawn" && noticeStatus=="Pending" &&(
+      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+    )}
+  </>)}
+
+      </div>
          <div className="detail">
+         <p>
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </p>
            <p>
              <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
            </p>
@@ -189,8 +239,12 @@
          <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button>
        </p>
            <p>
-             <span style={{ fontWeight: "bold" }}>Status:</span> {application.status}
-           </p>
+          <span style={{ fontWeight: "bold" }}>
+          {application.applicationType === "Application" ? "Status:" : "Status:"}
+          </span>{" "}
+          {application.applicationType === "Application" ? application.status : application.noticeStatus}
+          </p>
+
            <p>
              <span style={{ fontWeight: "bold" }}>Created At:</span>{" "}
              {new Date(application.dateOfCreation).toLocaleString()}

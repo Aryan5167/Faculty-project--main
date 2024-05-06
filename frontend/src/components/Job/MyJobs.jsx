@@ -138,6 +138,11 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
         <div className="content">
           <div className="short_fields">
             <div>
+            <div style={{marginLeft:"380px"}}> 
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </div>  
+           
               <span style={{ fontWeight: "bold", marginRight: "5px" }}>TITLE:</span>
               <span className="text-field">{application.subject}</span>
             </div>
