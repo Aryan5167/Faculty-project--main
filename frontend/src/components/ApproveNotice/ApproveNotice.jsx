@@ -23,15 +23,29 @@ const ApproveNotice = () => {
     }
   }, [isAuthorized, navigateTo]);
 
+  // const fetchNoticeApplications = async () => {
+  //   try {
+  //     const { data } = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });
+  //     setNoticeApps(data.applications);
+  //   } catch (error) {
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
+
   const fetchNoticeApplications = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });
-      setNoticeApps(data.applications);
+      const response = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });
+      const applicationsWithCreatorName = response.data.applications.map(application => {
+        return {
+          ...application,
+          creatorName: application.creatorId.name // Extracting creator's name from the populated creatorId field
+        };
+      });
+      setNoticeApps(applicationsWithCreatorName);
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  };
-
+};
   const approveNotice = async (applicationId) => {
     try {
       await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/approveNotice`, null, { withCredentials: true });
@@ -64,7 +78,7 @@ const ApproveNotice = () => {
 
   const ApplicationCard = ({ application, openCommentsModal}) => {
     const [comments, setComments] = useState([]);
-    const {applicationType,noticeStatus,status}=application
+    const {applicationType,noticeStatus,status,creatorName}=application
     useEffect(() => {
       const fetchComments = async () => {
         try {
@@ -132,6 +146,9 @@ const ApproveNotice = () => {
         <p>
             {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
             <h2>{application.applicationType} </h2>
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Created By:</span> {creatorName}
           </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
