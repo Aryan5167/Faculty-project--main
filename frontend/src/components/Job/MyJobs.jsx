@@ -167,7 +167,17 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
                   Approved
                 </button>
               )}
-              {application.status === "pending" && (
+              {application.status === "pending" && application.applicationType==="Application" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "Approved" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "pending" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
