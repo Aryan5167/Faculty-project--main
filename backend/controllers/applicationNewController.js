@@ -417,3 +417,18 @@ export const changeApplicationStatus = async (req, res, next) => {
 };
 
 // Other controller functions for updating, deleting, and retrieving applications can be added here
+export const getApprovedNotice=catchAsyncErrors(async(req,res,next)=>{
+
+  try {
+    // Fetch notices where applicationType is "Notice" and noticeStatus is "Approved"
+    const approvedNotices = await ApplicationNew.find({
+      applicationType: 'Notice',
+      noticeStatus: 'Approved'
+    });
+
+    res.status(200).json({ notices: approvedNotices });
+  } catch (error) {
+    console.error('Error fetching approved notices:', error);
+    res.status(500).json({ message: 'Failed to fetch approved notices' });
+  }
+})

@@ -1,5 +1,5 @@
 import express from "express";
-import { approveApplication, createApplication,rejectNoticeApplication,changeApplicationStatus, forwardApplication,approveNoticeApplication,getAllApplicationsForDean,getNoticeApplications,getDepartmentApplicationsForHOD, getAllApplicationByTag, getAllApplications , getMyApplications, getApplicationsByCommenterId, rejectApplication, withDrawApplication,getCommentByApplication} from "../controllers/applicationNewController.js";
+import { approveApplication, createApplication,getApprovedNotice,rejectNoticeApplication,changeApplicationStatus, forwardApplication,approveNoticeApplication,getAllApplicationsForDean,getNoticeApplications,getDepartmentApplicationsForHOD, getAllApplicationByTag, getAllApplications , getMyApplications, getApplicationsByCommenterId, rejectApplication, withDrawApplication,getCommentByApplication} from "../controllers/applicationNewController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -24,5 +24,7 @@ router.put('/:applicationId/approveNotice', isAuthenticated,approveNoticeApplica
 router.put('/:applicationId/rejectNotice', isAuthenticated,rejectNoticeApplication);
 
 router.put("/changeStatus/:applicationId",isAuthenticated,changeApplicationStatus)
+
+router.get("/applications",isAuthenticated,getApprovedNotice)
 
 export default router;
