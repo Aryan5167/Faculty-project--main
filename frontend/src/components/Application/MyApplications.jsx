@@ -117,7 +117,7 @@ const MyApplications = () => {
   const viewedApplications = applications.filter(app => app.status !== "pending" || app.isViewed);
 
   return (
-    <section className="bg-white min-h-screen">
+    <section className="my_applications min-h-screen">
       <div className="my_container" >
         <h4>PENDING APPLICATIONS</h4>
         <div className="pending_applications" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }} >

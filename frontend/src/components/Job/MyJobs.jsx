@@ -76,7 +76,7 @@ const MyJobs = () => {
   }
 
   return (
-    <div className="myApplications page min-h-screen">
+    <div className="my_applications min-h-screen">
       <div className="my_container">
         <h4>Your Applications</h4>
         {myApps.length === 0 ? (

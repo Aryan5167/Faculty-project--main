@@ -114,7 +114,7 @@ const FilteredApplications = () => {
     setShowCommentsModal(false);
   };
   return (
-    <div className="min-h-screen">
+    <div className="my_applications min-h-screen">
       {/* <div style={{ height: "calc(100vh - 80px)", marginLeft: "20px" }}> */}
       <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ONGOING APPLICATIONS</h4>
       <div className="application_cards mt-24" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
