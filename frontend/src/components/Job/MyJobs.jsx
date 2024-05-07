@@ -13,7 +13,7 @@ const MyJobs = () => {
   const [myApps, setMyApps] = useState([]);
   const { isAuthorized } = useContext(Context);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
-  
+
   const [selectedComments, setSelectedComments] = useState([]);
   useEffect(() => {
     const fetchApplications = async () => {
@@ -76,7 +76,7 @@ const MyJobs = () => {
   }
 
   return (
-    <div className="myApplications page">
+    <div className="myApplications page min-h-screen">
       <div className="my_container">
         <h4>Your Applications</h4>
         {myApps.length === 0 ? (
@@ -104,13 +104,13 @@ const MyJobs = () => {
   );
 };
 
-const ApplicationCard = ({ application, withDrawApplication,openCommentsModal }) => {
+const ApplicationCard = ({ application, withDrawApplication, openCommentsModal }) => {
   const [comments, setComments] = useState([]);
   const [isWithdrawn, setIsWithdrawn] = useState(false);
 
   const handleWithdraw = async (applicationId) => {
     try {
-     // Don't withdraw if user cancels
+      // Don't withdraw if user cancels
       await withDrawApplication(applicationId);
       setIsWithdrawn(true); // Set the state to indicate that application is withdrawn
     } catch (error) {
@@ -139,62 +139,62 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
         <div className="content">
           <div className="short_fields">
             <div>
-            <div style={{marginLeft:"380px"}}> 
-            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
-            <h2>{application.applicationType} </h2>
-          </div>  
-           
+              <div style={{ marginLeft: "380px" }}>
+                {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+                <h2>{application.applicationType} </h2>
+              </div>
+
               <span style={{ fontWeight: "bold", marginRight: "5px" }}>TITLE:</span>
               <span className="text-field">{application.subject}</span>
             </div>
-            {!isWithdrawn && application.status=='pending' && ( // Render the button only if the application is not withdrawn
+            {!isWithdrawn && application.status == 'pending' && ( // Render the button only if the application is not withdrawn
               <button className="with" onClick={() => handleWithdraw(application._id)}>Withdraw</button>
             )}
             {/* <button className="with" style={{ backgroundColor: "grey" }} onClick={() => withDrawApplication(application._id)}>Withdraw</button> */}
             <div>
-            {application.applicationType === 'Notice' && application.noticeStatus === "Approved" && (
-              <button className="status-button" style={{ backgroundColor: "green" }} disabled>
-                  Approved  
-                </button>
-            )}
-            {application.applicationType === 'Notice' && application.noticeStatus === 'Rejected' && (
-              <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
-                  Rejected
-                </button>
-            )}
-
-              {application.applicationType=== 'Application' && application.status === "Rejected" && (
-                <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
-                  Rejected
-                </button>
-              )}
-              {application.applicationType=== 'Application' && application.status === "Approved" && (
+              {application.applicationType === 'Notice' && application.noticeStatus === "Approved" && (
                 <button className="status-button" style={{ backgroundColor: "green" }} disabled>
                   Approved
                 </button>
               )}
-              {application.status === "pending" && application.applicationType==="Application" &&(
+              {application.applicationType === 'Notice' && application.noticeStatus === 'Rejected' && (
+                <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
+                  Rejected
+                </button>
+              )}
+
+              {application.applicationType === 'Application' && application.status === "Rejected" && (
+                <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
+                  Rejected
+                </button>
+              )}
+              {application.applicationType === 'Application' && application.status === "Approved" && (
+                <button className="status-button" style={{ backgroundColor: "green" }} disabled>
+                  Approved
+                </button>
+              )}
+              {application.status === "pending" && application.applicationType === "Application" && (
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
               )}
-              {application.status === "Approved" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+              {application.status === "Approved" && application.noticeStatus === "Pending" && application.applicationType === "Notice" && (
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
               )}
-              {application.status === "pending" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+              {application.status === "pending" && application.noticeStatus === "Pending" && application.applicationType === "Notice" && (
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
               )}
               {application.status === "alert" && (
                 <button className="status-button" style={{ backgroundColor: "#5ab3ff" }} disabled>
-                 Alert
+                  Alert
                 </button>
               )}
 
-               {application.status === "Withdrawn" && (
+              {application.status === "Withdrawn" && (
                 <button className="status-button" style={{ backgroundColor: "grey" }} disabled>
                   Withdrawn
                 </button>
@@ -219,18 +219,18 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
               )}
             </div> */}
             <p>
-    <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
-    <div style={{ display: "inline-block" }}>
-        {comments && (
-            comments.filter(comment => comment.comment).length > 0 ? (
-              <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
-                // <button onClick={() => openCommentsModal(comments)}>View Comments</button>
-            ) : (
-                <span>No Comments</span>
-            )
-        )}
-    </div>
-</p>
+              <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
+              <div style={{ display: "inline-block" }}>
+                {comments && (
+                  comments.filter(comment => comment.comment).length > 0 ? (
+                    <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }} /></button>
+                    // <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+                  ) : (
+                    <span>No Comments</span>
+                  )
+                )}
+              </div>
+            </p>
           </div>
         </div>
       </div>
@@ -240,4 +240,3 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
 
 export default MyJobs;
 
- 

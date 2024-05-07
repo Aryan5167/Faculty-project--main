@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { useNavigate } from "react-router-dom";
 import CommentsModal from "../Application/CommentsModal";
-import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell ,FaEye} from 'react-icons/fa';
+import { FaCheck, FaTimes, FaClock, FaTimesCircle, FaBell, FaEye } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 
 const ApproveNotice = () => {
@@ -36,7 +36,7 @@ const ApproveNotice = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
-};
+  };
   const approveNotice = async (applicationId) => {
     try {
       await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/approveNotice`, null, { withCredentials: true });
@@ -67,9 +67,9 @@ const ApproveNotice = () => {
     setShowCommentsModal(false);
   };
 
-  const ApplicationCard = ({ application, openCommentsModal}) => {
+  const ApplicationCard = ({ application, openCommentsModal }) => {
     const [comments, setComments] = useState([]);
-    const {applicationType,noticeStatus,status,creatorName}=application
+    const { applicationType, noticeStatus, status, creatorName } = application
     useEffect(() => {
       const fetchComments = async () => {
         try {
@@ -82,59 +82,59 @@ const ApproveNotice = () => {
       fetchComments();
     }, [application._id]);
 
-    const renderButtons = application.isNotice === false ;
+    const renderButtons = application.isNotice === false;
     return (
       <div className="application_card">
         <div className="icon-container" style={{ marginLeft: "auto" }}>
-         {applicationType === "Application" && (
-  <>
-    {status === "alert" && (
-      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
-    )}
-    {status === "Rejected" && (
-      <FaTimes style={{ color: "red", cursor: "pointer" }} />
-    )}
-    {status === "Approved" && (
-      <FaCheck style={{ color: "green", cursor: "pointer" }} />
-    )}
-    {status === "Withdrawn" && (
-      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
-    )}
-    
-    {status === "pending"  && (
-      <FaClock style={{ color: "grey", cursor: "pointer" }} />
-    )}
-  </>
-)}
+          {applicationType === "Application" && (
+            <>
+              {status === "alert" && (
+                <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+              )}
+              {status === "Rejected" && (
+                <FaTimes style={{ color: "red", cursor: "pointer" }} />
+              )}
+              {status === "Approved" && (
+                <FaCheck style={{ color: "green", cursor: "pointer" }} />
+              )}
+              {status === "Withdrawn" && (
+                <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+              )}
 
-{applicationType === "Notice" && (
-  <>
-    {noticeStatus === "Rejected" && (
-      <FaTimes style={{ color: "red", cursor: "pointer" }} />
-    )}
-    {noticeStatus === "Approved" && (
-      <FaCheck style={{ color: "green", cursor: "pointer" }} />
-    )}
-    {status === "Rejected" && noticeStatus=="Pending" &&(
-      <FaTimes style={{ color: "red", cursor: "pointer" }} />
-    )}
-    {status === "Approved" && noticeStatus=="Pending" &&(
-      <FaClock style={{ color: "grey", cursor: "pointer" }} />
-    )}
-    {status === "pending" && noticeStatus=="Pending" &&(
-      <FaClock style={{ color: "grey", cursor: "pointer" }} />
-    )}
-    {status === "alert" && noticeStatus=="Pending" &&(
-      <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
-    )}
-    {status === "Withdrawn" && noticeStatus=="Pending" &&(
-      <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
-    )}
-  </>)}
+              {status === "pending" && (
+                <FaClock style={{ color: "grey", cursor: "pointer" }} />
+              )}
+            </>
+          )}
 
-      </div>
+          {applicationType === "Notice" && (
+            <>
+              {noticeStatus === "Rejected" && (
+                <FaTimes style={{ color: "red", cursor: "pointer" }} />
+              )}
+              {noticeStatus === "Approved" && (
+                <FaCheck style={{ color: "green", cursor: "pointer" }} />
+              )}
+              {status === "Rejected" && noticeStatus == "Pending" && (
+                <FaTimes style={{ color: "red", cursor: "pointer" }} />
+              )}
+              {status === "Approved" && noticeStatus == "Pending" && (
+                <FaClock style={{ color: "grey", cursor: "pointer" }} />
+              )}
+              {status === "pending" && noticeStatus == "Pending" && (
+                <FaClock style={{ color: "grey", cursor: "pointer" }} />
+              )}
+              {status === "alert" && noticeStatus == "Pending" && (
+                <FaBell style={{ color: "#ffcd00", cursor: "pointer" }} />
+              )}
+              {status === "Withdrawn" && noticeStatus == "Pending" && (
+                <FaTimesCircle style={{ color: "grey", cursor: "pointer" }} />
+              )}
+            </>)}
+
+        </div>
         <div className="detail">
-        <p>
+          <p>
             {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
             <h2>{application.applicationType} </h2>
           </p>
@@ -147,16 +147,16 @@ const ApproveNotice = () => {
           {/* <p>
             <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
           </p> */}
-            <p style={{ display: "flex",alignItems: "center"}}>
-     
-     <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
-    
-     {/* <button onClick={() => openCommentsModal(application.content,"app")}
+          <p style={{ display: "flex", alignItems: "center" }}>
+
+            <span className="content" style={{ fontWeight: "bold" }}>Content:</span>
+
+            {/* <button onClick={() => openCommentsModal(application.content,"app")}
      >&nbsp;View<FaEye/></button> */}
-       <button onClick={() => openCommentsModal(application.content, "app")} style={{ display: 'flex', alignItems: 'center' }}>
-  View <FaEye style={{ marginLeft: '5px' }} />
-</button>
-   </p>
+            <button onClick={() => openCommentsModal(application.content, "app")} style={{ display: 'flex', alignItems: 'center' }}>
+              View <FaEye style={{ marginLeft: '5px' }} />
+            </button>
+          </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Status:</span> {application.noticeStatus}
           </p>
@@ -165,8 +165,8 @@ const ApproveNotice = () => {
             {new Date(application.dateOfCreation).toLocaleString()}
           </p>
           {/* <p> */}
-            {/* <span style={{ fontWeight: "bold" }}>Comments:</span>{" "} */}
-            {/* <div style={{ display: "inline-block" }}>
+          {/* <span style={{ fontWeight: "bold" }}>Comments:</span>{" "} */}
+          {/* <div style={{ display: "inline-block" }}>
               {comments && (
                 comments.filter(comment => comment.comment).length > 0 ? (
                   <button onClick={() => openCommentsModal(comments, "notice")}>View Comments</button>
@@ -177,25 +177,25 @@ const ApproveNotice = () => {
             </div> */}
           {/* </p> */}
         </div>
-        
+
         {renderButtons && (
-        <div className="actions">
-          <button onClick={() => approveNotice(application._id)}>Approve</button>
-          <button onClick={() => rejectNotice(application._id)}>Reject</button>
-          {/* Add Forward button */}
-          {/* <button onClick={() => openForwardModal(application)}>Forward</button> */}
-        </div>
-      )}
-        
+          <div className="actions">
+            <button onClick={() => approveNotice(application._id)}>Approve</button>
+            <button onClick={() => rejectNotice(application._id)}>Reject</button>
+            {/* Add Forward button */}
+            {/* <button onClick={() => openForwardModal(application)}>Forward</button> */}
+          </div>
+        )}
+
       </div>
     );
   };
 
   const pendingNotices = noticeApps.filter(notice => notice.status === "Approved" && !notice.isNotice);
-  const pastNotices = noticeApps.filter(notice => notice.noticeStatus === "Approved" || notice.noticeStatus=== "Rejected" || notice.isNotice);
-  
+  const pastNotices = noticeApps.filter(notice => notice.noticeStatus === "Approved" || notice.noticeStatus === "Rejected" || notice.isNotice);
+
   return (
-    <section className="my_notices page">
+    <section className="my_notices page min-h-screen">
       <div className="my_container">
         <h4>PENDING NOTICES</h4>
         <div className="pending_notices" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
