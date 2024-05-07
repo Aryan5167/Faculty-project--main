@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyJobs.css";
 import CommentsModal from "../Application/CommentsModal";
 
+import { FaEye } from 'react-icons/fa';
 const MyJobs = () => {
   const [myApps, setMyApps] = useState([]);
   const { isAuthorized } = useContext(Context);
@@ -76,10 +77,10 @@ const MyJobs = () => {
 
   return (
     <div className="myApplications page">
-      <div className="container">
-        <h1>Your Applications</h1>
+      <div className="my_container">
+        <h4>Your Applications</h4>
         {myApps.length === 0 ? (
-          <p>You haven't created any applications yet!</p>
+          <h2>You haven't created any applications yet!</h2>
         ) : (
           <div className="applicationList">
             {myApps.map((application) => (
@@ -138,6 +139,11 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
         <div className="content">
           <div className="short_fields">
             <div>
+            <div style={{marginLeft:"380px"}}> 
+            {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
+            <h2>{application.applicationType} </h2>
+          </div>  
+           
               <span style={{ fontWeight: "bold", marginRight: "5px" }}>TITLE:</span>
               <span className="text-field">{application.subject}</span>
             </div>
@@ -146,21 +152,48 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
             )}
             {/* <button className="with" style={{ backgroundColor: "grey" }} onClick={() => withDrawApplication(application._id)}>Withdraw</button> */}
             <div>
-              {application.status === "Rejected" && (
+            {application.applicationType === 'Notice' && application.noticeStatus === "Approved" && (
+              <button className="status-button" style={{ backgroundColor: "green" }} disabled>
+                  Approved  
+                </button>
+            )}
+            {application.applicationType === 'Notice' && application.noticeStatus === 'Rejected' && (
+              <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
+                  Rejected
+                </button>
+            )}
+
+              {application.applicationType=== 'Application' && application.status === "Rejected" && (
                 <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
                   Rejected
                 </button>
               )}
-              {application.status === "Approved" && (
+              {application.applicationType=== 'Application' && application.status === "Approved" && (
                 <button className="status-button" style={{ backgroundColor: "green" }} disabled>
                   Approved
                 </button>
               )}
-              {application.status === "pending" && (
+              {application.status === "pending" && application.applicationType==="Application" &&(
                 <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
                   Pending
                 </button>
               )}
+              {application.status === "Approved" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "pending" && application.noticeStatus==="Pending" && application.applicationType==="Notice" &&(
+                <button className="status-button" style={{ backgroundColor: "#FFA700" }} disabled>
+                  Pending
+                </button>
+              )}
+              {application.status === "alert" && (
+                <button className="status-button" style={{ backgroundColor: "#5ab3ff" }} disabled>
+                 Alert
+                </button>
+              )}
+
                {application.status === "Withdrawn" && (
                 <button className="status-button" style={{ backgroundColor: "grey" }} disabled>
                   Withdrawn
@@ -186,11 +219,12 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
               )}
             </div> */}
             <p>
-    <span style={{ fontWeight: "bold" }}>Comment:</span>{" "}
+    <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
     <div style={{ display: "inline-block" }}>
         {comments && (
             comments.filter(comment => comment.comment).length > 0 ? (
-                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+              <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
+                // <button onClick={() => openCommentsModal(comments)}>View Comments</button>
             ) : (
                 <span>No Comments</span>
             )

@@ -3,8 +3,12 @@ import './CommentsModal.css';
 
 const CommentsModal = ({ comments, onClose, type }) => {
   // Filter comments where comment field is not empty
-  const filteredComments = comments.filter(comment => comment.comment);
-
+// const filteredComments = comments.filter(comment => comment.comment);
+let filteredComments = [];
+if (type !== 'app') {
+  // Filter comments where comment field is not empty
+  filteredComments = comments.filter(comment => comment.comment);
+}
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -25,10 +29,11 @@ const CommentsModal = ({ comments, onClose, type }) => {
             ))}
           </ul>
         )}
-        <div className="close">
+      <div className="close">
           <button onClick={onClose}>Close</button>
         </div>
       </div>
+      
     </div>
   );
 };

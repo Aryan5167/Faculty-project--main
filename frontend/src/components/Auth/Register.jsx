@@ -221,9 +221,6 @@ const Register = () => {
               </>
             )}
 
-
-
-
             <button type="submit" onClick={handleRegister}>
               Register
             </button>

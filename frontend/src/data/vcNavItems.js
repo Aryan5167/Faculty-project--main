@@ -24,7 +24,7 @@ export const vcNavItems = [
 
     },
     {
-        text: "MY-TAGS",
+        text: "MY TAGS",
         href: "/application/applicationTag",
         onclick: () => setShow(false)
 

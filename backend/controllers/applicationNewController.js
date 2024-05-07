@@ -79,6 +79,26 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
   }
 });
 
+// export const getNoticeApplications=catchAsyncErrors(async(req,res,next)=>{
+//   try{
+//     const Myapplications=await ApplicationNew.find({applicationType:"Notice", status:"Approved"});
+//     res.status(200).json({applications:Myapplications})
+//   }
+//   catch(error){
+//     res.status(500).json({ message: "Failed to fetch Notices" });
+//   }
+ 
+// })
+export const getNoticeApplications = catchAsyncErrors(async(req, res, next) => {
+  try {
+    const Myapplications = await ApplicationNew.find({ applicationType: "Notice", status: "Approved" })
+      .populate('creatorId', 'name'); // Populate the creatorId field from the User model and include only the 'name' field
+
+    res.status(200).json({ applications: Myapplications });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch Notices" });
+  }
+});
 
 export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
   try { 
@@ -88,6 +108,7 @@ export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
     res.status(500).json({ message: "Failed to fetch applications" });
   }
 })
+
 
 export const getCommentByApplication = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -144,6 +165,14 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
         },
       },
       {
+        $lookup: {
+          from: "users", // The name of the user collection
+          localField: "creatorId", // Field from the application schema
+          foreignField: "_id", // Field from the user schema
+          as: "creator", // Alias for the joined creator
+        },
+      },
+      {
         $match: {
           "comments.commenterId": userId, // Match comments by commenter ID
         },
@@ -153,7 +182,7 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
     const modifiedApplications = applications.map(application => {
       const comment = application.comments.find(comment => String(comment.commenterId) === String(userId));
       if (comment) {
-        return { ...application, isViewed: comment.isViewed };
+        return { ...application, isViewed: comment.isViewed, creatorName: application.creator[0].name };
       } else {
         return application;
       }
@@ -170,6 +199,38 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+
+export const approveNoticeApplication = async (req, res, next) => {
+  try {
+      const { applicationId } = req.params;
+
+      // Update application status to 'approved'
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice: true, noticeStatus:"Approved"});
+
+      // Update comment status to 'approved'
+      // await Comment.findByIdAndUpdate(commentId, { status: 'approved',isViewed:true });
+
+      res.status(200).json({ success:true,message: 'Notice application approved successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to approve notice application' });
+  }
+};
+
+export const rejectNoticeApplication = async (req, res, next) => {
+  try {
+      const { applicationId } = req.params;
+
+      // Update application status to 'rejected'
+      await ApplicationNew.findByIdAndUpdate(applicationId, { isNotice:true,noticeStatus:"Rejected"});
+
+      // Update comment status to 'rejected'
+      // await Comment.findByIdAndUpdate(commentId, { status: 'rejected',isViewed:true });
+
+      res.status(200).json({ message: 'Notice application rejected successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to reject notice application' });
+  }
+};
 
 export const approveApplication = async (req, res, next) => {
   const { applicationId, commentId } = req.params;
@@ -281,8 +342,11 @@ export const getDepartmentApplicationsForHOD = catchAsyncErrors(async (req, res,
         }
       }
     ]);
-    
-    res.status(200).json({ departmentApplications });
+    const applicationsWithCreatorName = departmentApplications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
+    res.status(200).json({ departmentApplications:applicationsWithCreatorName  });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch applications" });
   }
@@ -293,11 +357,25 @@ export const getAllApplicationsForDean = catchAsyncErrors(async (req, res, next)
     if (!req.user || !req.user._id) {
       throw new ErrorHandler("User information not found in request.", 400);
     }
-    const allApplications = await ApplicationNew.find();
+    // const allApplications = await ApplicationNew.find();
+    const applications = await ApplicationNew.aggregate([
+      {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+    ]);
+    const applicationsWithCreatorName = applications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
     res.status(200).json({
       success: true,
-      count: allApplications.length,
-      allApplications,
+      count: applicationsWithCreatorName.length,
+      applicationsWithCreatorName,
     });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch applications" });
@@ -323,21 +401,71 @@ export const getAllApplicationByTag = catchAsyncErrors(async (req, res, next) =>
         },
       },
       {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      {
         $match: {
           "comments.tagId": userId, // Match comments by commenter ID
         },
       },
     ]);
-
+    const applicationsWithCreatorName = applications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
     res.status(200).json({
       success: true,
-      count: applications.length,
-      applications,
+      count: applicationsWithCreatorName.length,
+      applicationsWithCreatorName,
     });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
 });
 
+export const changeApplicationStatus = async (req, res, next) => {
+  const { applicationId } = req.params;
+  //  const { status } = req.body;
+
+  try {
+    // Find the application by ID
+    const application = await ApplicationNew.findById(applicationId);
+
+    // Check if the application exists
+    if (!application) {
+      return next(new ErrorHandler("Application not found", 404));
+    }
+
+    // Update the status of the application
+    application.status = "alert";
+    await application.save();
+
+    // Respond with success message
+    res.status(200).json({ success: true, message: "Application status updated successfully" });
+  } catch (error) {
+    // Handle errors
+    return next(new ErrorHandler(error.message, 500));
+  }
+};
 
 // Other controller functions for updating, deleting, and retrieving applications can be added here
+export const getApprovedNotice=catchAsyncErrors(async(req,res,next)=>{
+
+  try {
+    // Fetch notices where applicationType is "Notice" and noticeStatus is "Approved"
+    const approvedNotices = await ApplicationNew.find({
+      applicationType: 'Notice',
+      noticeStatus: 'Approved'
+    });
+
+    res.status(200).json({ notices: approvedNotices });
+  } catch (error) {
+    console.error('Error fetching approved notices:', error);
+    res.status(500).json({ message: 'Failed to fetch approved notices' });
+  }
+})

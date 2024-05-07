@@ -8,6 +8,7 @@ import HeroSection from "./HeroSection";
 import HowItWorks from "./HowItWorks";
 import PopularCategories from "./PopularCategories";
 import PopularCompanies from "./PopularCompanies";
+import Notices from "../Notices/Notices";
 
 const Home = () => {
   const { isAuthorized } = useContext(Context);
@@ -20,6 +21,7 @@ const Home = () => {
         {/* <HeroSection /> */}
         <Hero/>
         <AboutUs />
+        <Notices />
         {/* <HowItWorks />
         <PopularCategories />
         <PopularCompanies /> */}
