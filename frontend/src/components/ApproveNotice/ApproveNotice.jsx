@@ -195,7 +195,7 @@ const ApproveNotice = () => {
   const pastNotices = noticeApps.filter(notice => notice.noticeStatus === "Approved" || notice.noticeStatus === "Rejected" || notice.isNotice);
 
   return (
-    <section className="my_notices page min-h-screen">
+    <section className="my_applications min-h-screen">
       <div className="my_container">
         <h4>PENDING NOTICES</h4>
         <div className="pending_notices" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
