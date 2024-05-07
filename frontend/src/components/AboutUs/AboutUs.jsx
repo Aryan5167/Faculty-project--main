@@ -6,22 +6,22 @@ function AboutUs() {
       <div className="">
         <h1 className="text-4xl leading-relaxed tracking-widest">What Is Campus Connect About</h1>
         <p className="">
-        Welcome to Campus Connect, comprehensive solution for streamlined application management in educational institutions.
+          Welcome to Campus Connect, comprehensive solution for streamlined application management in educational institutions.
         </p>
         <div className='my-2' />
         <p className="">
-        Our platform empowers students and faculty alike to create, collaborate on, and manage applications with ease. With innovative features such as role-based access control, tagging for collaboration, and automated workflows, Campus Connect ensures efficiency, transparency, and accountability throughout the application lifecycle
+          Our platform empowers students and faculty alike to create, collaborate on, and manage applications with ease. With innovative features such as role-based access control, tagging for collaboration, and automated workflows, Campus Connect ensures efficiency, transparency, and accountability throughout the application lifecycle
         </p>
         <div className='my-2' />
         <p className="">
-        Join us in revolutionizing how applications are created, reviewed, and processed within your educational community.
+          Join us in revolutionizing how applications are created, reviewed, and processed within your educational community.
         </p>
         <div className='my-2' />
         <p className="">
-          <h1 style={{fontWeight:"bold"}}>Streamlining Application Processes: Enhancing Organizational Efficiency!</h1>
+          <h1 style={{ fontWeight: "bold" }}>Streamlining Application Processes: Enhancing Organizational Efficiency!</h1>
         </p>
       </div>
-      <img src="userlog.png" className='w-full' alt="About Us" />
+      <img src="userlog.png" className='w-full mb-8' alt="About Us" />
     </section>
   )
 }

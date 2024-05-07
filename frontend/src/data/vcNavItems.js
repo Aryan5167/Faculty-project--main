@@ -18,6 +18,12 @@ export const vcNavItems = [
 
     },
     {
+        text: "MY APPLICATIONS",
+        href: "/jobs/me",
+        onclick: () => setShow(false)
+
+    },
+    {
         text: "MY TAGS",
         href: "/application/applicationTag",
         onclick: () => setShow(false)

@@ -54,12 +54,12 @@ const App = () => {
           <Route path="/application/:id" element={<Application />} />
           <Route path="/applications/me" element={<MyApplications />} />
           <Route path="/job/post" element={<PostJob />} />
-           <Route path="/jobs/me" element={<MyJobs />} /> 
+          <Route path="/jobs/me" element={<MyJobs />} />
           <Route path="/application/applicationTag" element={<TagPage />} />
           <Route path="/ApproveNotice" element={<ApproveNotice />}></Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
         <Toaster />
       </BrowserRouter>
     </ main>
