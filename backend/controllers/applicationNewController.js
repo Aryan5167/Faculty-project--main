@@ -79,17 +79,26 @@ export const getApplicationsByCommenterId = catchAsyncErrors(async (req, res, ne
   }
 });
 
-export const getNoticeApplications=catchAsyncErrors(async(req,res,next)=>{
-  try{
-    const Myapplications=await ApplicationNew.find({applicationType:"Notice", status:"Approved"});
-    res.status(200).json({applications:Myapplications})
-  }
-  catch(error){
+// export const getNoticeApplications=catchAsyncErrors(async(req,res,next)=>{
+//   try{
+//     const Myapplications=await ApplicationNew.find({applicationType:"Notice", status:"Approved"});
+//     res.status(200).json({applications:Myapplications})
+//   }
+//   catch(error){
+//     res.status(500).json({ message: "Failed to fetch Notices" });
+//   }
+ 
+// })
+export const getNoticeApplications = catchAsyncErrors(async(req, res, next) => {
+  try {
+    const Myapplications = await ApplicationNew.find({ applicationType: "Notice", status: "Approved" })
+      .populate('creatorId', 'name'); // Populate the creatorId field from the User model and include only the 'name' field
+
+    res.status(200).json({ applications: Myapplications });
+  } catch (error) {
     res.status(500).json({ message: "Failed to fetch Notices" });
   }
- 
-})
-
+});
 
 export const getMyApplications =catchAsyncErrors(async(req,res,next)=>{
   try { 
