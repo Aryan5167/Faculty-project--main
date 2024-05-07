@@ -342,8 +342,11 @@ export const getDepartmentApplicationsForHOD = catchAsyncErrors(async (req, res,
         }
       }
     ]);
-    
-    res.status(200).json({ departmentApplications });
+    const applicationsWithCreatorName = departmentApplications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
+    res.status(200).json({ departmentApplications:applicationsWithCreatorName  });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch applications" });
   }
@@ -354,11 +357,25 @@ export const getAllApplicationsForDean = catchAsyncErrors(async (req, res, next)
     if (!req.user || !req.user._id) {
       throw new ErrorHandler("User information not found in request.", 400);
     }
-    const allApplications = await ApplicationNew.find();
+    // const allApplications = await ApplicationNew.find();
+    const applications = await ApplicationNew.aggregate([
+      {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+    ]);
+    const applicationsWithCreatorName = applications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
     res.status(200).json({
       success: true,
-      count: allApplications.length,
-      allApplications,
+      count: applicationsWithCreatorName.length,
+      applicationsWithCreatorName,
     });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch applications" });
@@ -384,16 +401,27 @@ export const getAllApplicationByTag = catchAsyncErrors(async (req, res, next) =>
         },
       },
       {
+        $lookup: {
+          from: "users", // Name of the User collection
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      {
         $match: {
           "comments.tagId": userId, // Match comments by commenter ID
         },
       },
     ]);
-
+    const applicationsWithCreatorName = applications.map(application => ({
+      ...application,
+      creatorName: application.creator[0].name // Assuming creator name is stored in the 'name' field of the creator object
+    }));
     res.status(200).json({
       success: true,
-      count: applications.length,
-      applications,
+      count: applicationsWithCreatorName.length,
+      applicationsWithCreatorName,
     });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
