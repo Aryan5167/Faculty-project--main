@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyJobs.css";
 import CommentsModal from "../Application/CommentsModal";
 
+import { FaEye } from 'react-icons/fa';
 const MyJobs = () => {
   const [myApps, setMyApps] = useState([]);
   const { isAuthorized } = useContext(Context);
@@ -79,7 +80,7 @@ const MyJobs = () => {
       <div className="my_container">
         <h4>Your Applications</h4>
         {myApps.length === 0 ? (
-          <p>You haven't created any applications yet!</p>
+          <h2>You haven't created any applications yet!</h2>
         ) : (
           <div className="applicationList">
             {myApps.map((application) => (
@@ -222,7 +223,8 @@ const ApplicationCard = ({ application, withDrawApplication,openCommentsModal })
     <div style={{ display: "inline-block" }}>
         {comments && (
             comments.filter(comment => comment.comment).length > 0 ? (
-                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+              <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
+                // <button onClick={() => openCommentsModal(comments)}>View Comments</button>
             ) : (
                 <span>No Comments</span>
             )

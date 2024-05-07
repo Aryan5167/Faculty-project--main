@@ -5,7 +5,7 @@
  import { Context } from "../../main";
  import { useNavigate } from "react-router-dom";
  import CommentsModal from "./CommentsModal";
- import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell } from 'react-icons/fa';
+ import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell,FaEye } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
  
  const FilteredApplications = () => {
@@ -230,13 +230,15 @@ import { IoMdArrowForward } from 'react-icons/io';
             {/* <span style={{ fontWeight: "bold" }}>Type:</span> {application.applicationType} */}
             <h2>{application.applicationType} </h2>
           </p>
+        
            <p>
              <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
            </p>
          <p style={{ display: "flex",alignItems: "center"}}>
       
          <span className="content" style={{ fontWeight: "bold" }}>Content:&nbsp;</span> 
-         <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button>
+         {/* <button onClick={() => openCommentsModal(application.content,"app")}>View Content</button> */}
+         <button onClick={() => openCommentsModal(application.content,"app")} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
        </p>
            <p>
           <span style={{ fontWeight: "bold" }}>
@@ -250,11 +252,12 @@ import { IoMdArrowForward } from 'react-icons/io';
              {new Date(application.dateOfCreation).toLocaleString()}
            </p>
            <p>
-     <span style={{ fontWeight: "bold" }}>Comments:</span>{" "}
+     <span style={{ fontWeight: "bold" }}>Comments:&nbsp;</span>{" "}
      <div style={{ display: "inline-block" }}>
          {comments && (
             comments.filter(comment => comment.comment).length > 0 ? (
-                 <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+              <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
+                //  <button onClick={() => openCommentsModal(comments)}>View Comments</button>
              ) : (
                  <span>No Comments</span>
              )
