@@ -84,30 +84,11 @@ const Application = () => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          {/* <input
-            type="text"
-            placeholder="Your Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          /> */}
           <textarea
             placeholder="CoverLetter..."
             value={coverLetter}
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* <div>
-            <label
-              style={{ textAlign: "start", display: "block", fontSize: "20px" }}
-            >
-              Select Resume
-            </label>
-            <input
-              type="file"
-              accept=".pdf, .jpg, .png"
-              onChange={handleFileChange}
-              style={{ width: "100%" }}
-            />
-          </div> */}
           <button type="submit">Send Application</button>
         </form>
       </div>

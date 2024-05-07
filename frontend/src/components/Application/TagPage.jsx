@@ -137,7 +137,6 @@ import { IoMdArrowForward } from 'react-icons/io';
        <>
        {(user.level==="Dean") && <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ALL APPLICATIONS</h4>}
        {(user.level==="HOD") && <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>DEPARTMENT APPLICATIONS</h4>}
-         {/* <h4 style={{ marginTop: "120px", marginBottom: "-80px", marginLeft: "20px" }}>ALL APPLICATIONS</h4> */}
          <div className="application_cards mt-24" style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "spaceAround" }}>
            {allApplications?.length === 0 ? (
              <h2 style={{ marginLeft: "20px" }}>No All Applications Found</h2>

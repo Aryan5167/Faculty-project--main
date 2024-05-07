@@ -23,15 +23,6 @@ const ApproveNotice = () => {
     }
   }, [isAuthorized, navigateTo]);
 
-  // const fetchNoticeApplications = async () => {
-  //   try {
-  //     const { data } = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });
-  //     setNoticeApps(data.applications);
-  //   } catch (error) {
-  //     toast.error(error.response.data.message);
-  //   }
-  // };
-
   const fetchNoticeApplications = async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });

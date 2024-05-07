@@ -99,12 +99,6 @@ const Header = () => {
           </button>
         ) : (
           <span></span>
-          // <button
-          //   onClick={() => { }}
-          //   className="ml-4 lg:ml-12 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-800/80"
-          // >
-          //   LOGIN
-          // </button>
         )}
       </div>
     </header>

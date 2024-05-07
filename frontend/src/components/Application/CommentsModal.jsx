@@ -2,8 +2,6 @@ import React from 'react';
 import './CommentsModal.css';
 
 const CommentsModal = ({ comments, onClose, type }) => {
-  // Filter comments where comment field is not empty
-// const filteredComments = comments.filter(comment => comment.comment);
 let filteredComments = [];
 if (type !== 'app') {
   // Filter comments where comment field is not empty

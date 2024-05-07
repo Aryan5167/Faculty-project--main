@@ -59,7 +59,6 @@ const Notifications = () => {
                   <a href="#notifications" className="font-semibold text-gray-900 flex-grow ml-4">
                     {item.subject}
                     <span className="text-xs text-gray-400 animate-pulse">
-                      {/* Adjust time display if needed */}
                     </span>
                     <span className="absolute inset-0"></span>
                   </a>
