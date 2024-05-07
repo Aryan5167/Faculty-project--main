@@ -41,8 +41,8 @@ const Notifications = () => {
   };
 
   return (
-    <div className="relative" id="notifications">
-      <div className="absolute left z-10 mt-5 flex w-full max-w-max px-4" style={{ right: "3rem" }}>
+    <div className='absolute bottom-0 right-0' id="notifications">
+      <div className="mt-5 flex w-full max-w-max px-4">
         <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl text-sm leading-6 shadow-lg ring-2 ring-gray-900/6 bg-gradient-to-r from-gray-50 to-blue-100">
           <div className="p-4">
             <button

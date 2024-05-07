@@ -13,9 +13,9 @@ const Home = () => {
   }
   return (
     <>
-      <section className="homePage page" style={{}}>
-        <Hero />
+      <section className="relative" style={{}}>
         <Notices />
+        <Hero />
         <AboutUs />
 
       </section>
