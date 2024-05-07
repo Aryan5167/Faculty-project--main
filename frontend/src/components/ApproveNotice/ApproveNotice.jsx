@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { useNavigate } from "react-router-dom";
 import CommentsModal from "../Application/CommentsModal";
-import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell } from 'react-icons/fa';
+import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell ,FaEye} from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 
 const ApproveNotice = () => {
@@ -153,9 +153,19 @@ const ApproveNotice = () => {
           <p>
             <span style={{ fontWeight: "bold" }}>Subject:</span> {application.subject}
           </p>
-          <p>
+          {/* <p>
             <span style={{ fontWeight: "bold" }}>Content:</span> {application.content}
-          </p>
+          </p> */}
+            <p style={{ display: "flex",alignItems: "center"}}>
+     
+     <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
+    
+     {/* <button onClick={() => openCommentsModal(application.content,"app")}
+     >&nbsp;View<FaEye/></button> */}
+       <button onClick={() => openCommentsModal(application.content, "app")} style={{ display: 'flex', alignItems: 'center' }}>
+  View <FaEye style={{ marginLeft: '5px' }} />
+</button>
+   </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Status:</span> {application.noticeStatus}
           </p>
@@ -229,6 +239,13 @@ const ApproveNotice = () => {
           )}
         </div>
       </div>
+      {showCommentsModal && (
+        <CommentsModal
+          comments={selectedComments}
+          onClose={closeCommentsModal}
+          type={type}
+        />
+      )}
     </section>
   );
 }

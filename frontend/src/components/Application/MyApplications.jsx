@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./myapplication.css";
 import ForwardModal from "./ForwardModal";
 import CommentsModal from "./CommentsModal";
-import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell } from 'react-icons/fa';
+import { FaCheck, FaTimes,FaClock,FaTimesCircle,FaBell,FaEye } from 'react-icons/fa';
 import { IoMdArrowForward } from 'react-icons/io';
 const MyApplications = () => {
   const { isAuthorized } = useContext(Context);
@@ -123,7 +123,7 @@ const MyApplications = () => {
         <div className="pending_applications" style={{display:"flex",flexWrap: "wrap",gap:"20px",justifyContent:"spaceAround"}} >
          
           {pendingApplications.length === 0 ? (
-            <h2>No Pending Applications Found</h2>
+            <h2 style={{margin:"auto"}}>No Pending Applications Found!</h2>
           ) : (
             pendingApplications.map((application) => (
               <ApplicationCard
@@ -143,7 +143,7 @@ const MyApplications = () => {
         <div className="approved_rejected_applications" style={{display:"flex",flexWrap: "wrap",gap:"10px",justifyContent:"spaceAround"}}>
           
           {viewedApplications.length === 0 ? (
-            <h2>No Past Applications Found</h2>
+            <h2 style={{margin:"auto"}}>No Past Applications Found</h2>
           ) : (
             viewedApplications.map((application) => (
               <ApplicationCard
@@ -274,10 +274,11 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
       </p>
       <p style={{ display: "flex",alignItems: "center"}}>
      
-        <span className="content" style={{ fontWeight: "bold" }}>Content:</span> 
+        <span className="content" style={{ fontWeight: "bold" }}>Content:&nbsp;</span> 
        
-        <button onClick={() => openCommentsModal(application.content,"app")}>&nbsp;View Content</button>
-          
+        <button onClick={() => openCommentsModal(application.content, "app")} style={{ display: 'flex', alignItems: 'center' }}>
+  View <FaEye style={{ marginLeft: '5px' }} />
+</button>   
       </p>
       {applicationType == "Application" && 
       <p>
@@ -300,7 +301,7 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
     <div style={{ display: "inline-block" }}>
         {comments && (
            comments.filter(comment => comment.comment).length > 0 ? (
-                <button onClick={() => openCommentsModal(comments)}>View Comments</button>
+                <button onClick={() => openCommentsModal(comments)} style={{ display: 'flex', alignItems: 'center' }}> View <FaEye style={{ marginLeft: '5px' }}/></button>
             ) : (
                 <span>No Comments</span>
             )

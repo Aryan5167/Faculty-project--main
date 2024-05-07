@@ -13,7 +13,7 @@ const PostJob = () => {
   const [applicationType, setApplicationType] = useState(""); // State to hold the selected application type
   const [facultyList, setFacultyList] = useState([]);
   const { isAuthorized, user } = useContext(Context);
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get("http://localhost:4000/api/v1/user/faculty")
       .then(response => {
@@ -45,6 +45,7 @@ const PostJob = () => {
     )
     .then((res) => {
       toast.success(res.data.message);
+      navigate('/');
     })
     .catch((err) => {
       toast.error(err.response.data.message);
