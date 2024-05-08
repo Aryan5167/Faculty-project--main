@@ -1,11 +1,7 @@
 import express from "express";
 import { dbConnection } from "./database/dbConnection.js";
-import jobRouter from "./routes/jobRoutes.js";
 import userRouter from "./routes/userRoutes.js";
-import applicationRouter from "./routes/applicationRoutes.js";
 import applicationNewRouter from "./routes/applicationNewRouter.js"
-// import CommentRouter from "./routes/commentRouter.js"
-// import commentRouter from "./routes/commentRouter.js"
 import { config } from "dotenv";
 import cors from "cors";
 import { errorMiddleware } from "./middlewares/error.js";
@@ -34,11 +30,8 @@ app.use(
   })
 );
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/job", jobRouter);
-// app.use("/api/v1/application", applicationRouter);
+// app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/applicationNew",applicationNewRouter);
-// app.use("/api/v1/comment",commentRouter);
-// app.use("/api/v1/newApplication", newApplicationRouter);
 dbConnection();
 
 app.use(errorMiddleware);
