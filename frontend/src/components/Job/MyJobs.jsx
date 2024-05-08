@@ -157,7 +157,13 @@ const ApplicationCard = ({ application, withDrawApplication, openCommentsModal }
                   Approved
                 </button>
               )}
+
               {application.applicationType === 'Notice' && application.noticeStatus === 'Rejected' && (
+                <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
+                  Rejected
+                </button>
+              )}
+               {application.applicationType === 'Notice' && application.status === 'Rejected' && (
                 <button className="status-button" style={{ backgroundColor: "#be1818" }} disabled>
                   Rejected
                 </button>
