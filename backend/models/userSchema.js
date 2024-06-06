@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
   enrollNum: { type: String },
   year: { type: Number },
   batch: { type: String },
-  level:{type:String, enum:['HOD','Professor','Dean','VC']},
+  level:{type:String, enum:['HOD','Professor','Dean','VC',''], default:''},
   // Optional fields for faculty
   department: { type: String },
   cabinNumber: { type: String }
