@@ -9,7 +9,7 @@ const ForwardModal = ({ application, onClose, onForward }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/v1/user/faculty")
+      .get(`${REACT_APP_BACKEND_URL}/api/v1/user/faculty`)
       .then((response) => {
         setFacultyList(response.data.faculty);
       })

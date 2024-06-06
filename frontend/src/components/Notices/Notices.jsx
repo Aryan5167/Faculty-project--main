@@ -22,7 +22,7 @@ const Notifications = () => {
 
   const fetchNotices = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/v1/applicationNew/applications', { withCredentials: true });
+      const response = await axios.get(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/applications`, { withCredentials: true });
       const { notices } = response.data;
       console.log('Notification Items:', notices); // Log the notification items
       setNotificationItems(notices);

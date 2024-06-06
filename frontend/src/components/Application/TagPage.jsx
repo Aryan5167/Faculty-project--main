@@ -45,7 +45,7 @@ const FilteredApplications = () => {
   const fetchOngoingApplications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/v1/applicationNew/getalltag",
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getalltag`,
         {
           withCredentials: true,
         }
@@ -59,7 +59,7 @@ const FilteredApplications = () => {
   const fetchAllApplications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/v1/applicationNew/getallfordean",
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getallfordean`,
         {
           withCredentials: true,
         }
@@ -73,7 +73,7 @@ const FilteredApplications = () => {
   const fetchDepartmentApplications = async (department) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/applicationNew/getDepartmentApplications/${department}`,
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getDepartmentApplications/${department}`,
         {
           withCredentials: true,
         }
@@ -87,7 +87,7 @@ const FilteredApplications = () => {
   const handleAlertButtonClick = async (applicationId) => {
     try {
       await axios.put(
-        `http://localhost:4000/api/v1/applicationNew/changeStatus/${applicationId}`,
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/changeStatus/${applicationId}`,
         {},
         {
           withCredentials: true,
@@ -163,7 +163,7 @@ const ApplicationCard = ({ application, openCommentsModal, onAlertButtonClick, u
     const fetchComments = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`,
+          `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getCommentsByApplication/${application._id}`,
           { withCredentials: true }
         );
         setComments(data.comments);

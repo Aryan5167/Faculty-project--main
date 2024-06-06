@@ -15,7 +15,7 @@ const PostJob = () => {
   const { isAuthorized, user } = useContext(Context);
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get("http://localhost:4000/api/v1/user/faculty")
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/faculty`)
       .then(response => {
         setFacultyList(response.data.faculty);
       })
@@ -28,7 +28,7 @@ const PostJob = () => {
     e.preventDefault();
     
     await axios.post(
-      "http://localhost:4000/api/v1/applicationNew/post",
+      `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/post`,
       { 
         subject, 
         content, 

@@ -156,7 +156,7 @@ export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
 
     // Retrieve all applications with corresponding comment IDs
     const applications = await ApplicationNew.aggregate([
-      {
+      { 
         $lookup: {
           from: "comments", // The name of the comment collection
           localField: "_id", // Field from the application schema

@@ -25,7 +25,7 @@ const ApproveNotice = () => {
 
   const fetchNoticeApplications = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/applicationNew/getNoticeApplications", { withCredentials: true });
+      const response = await axios.get(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getNoticeApplications`, { withCredentials: true });
       const applicationsWithCreatorName = response.data.applications.map(application => {
         return {
           ...application,
@@ -39,7 +39,7 @@ const ApproveNotice = () => {
   };
   const approveNotice = async (applicationId) => {
     try {
-      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/approveNotice`, null, { withCredentials: true });
+      await axios.put(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${applicationId}/approveNotice`, null, { withCredentials: true });
       toast.success("Notice approved successfully!");
       fetchNoticeApplications(); // Refresh notice applications list
     } catch (error) {
@@ -49,7 +49,7 @@ const ApproveNotice = () => {
 
   const rejectNotice = async (applicationId) => {
     try {
-      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/rejectNotice`, null, { withCredentials: true });
+      await axios.put(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${applicationId}/rejectNotice`, null, { withCredentials: true });
       toast.success("Notice rejected successfully!");
       fetchNoticeApplications(); // Refresh notice applications list
     } catch (error) {
@@ -73,7 +73,7 @@ const ApproveNotice = () => {
     useEffect(() => {
       const fetchComments = async () => {
         try {
-          const { data } = await axios.get(`http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`, { withCredentials: true });
+          const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getCommentsByApplication/${application._id}`, { withCredentials: true });
           setComments(data.comments);
         } catch (error) {
           toast.error(error.response.data.message);

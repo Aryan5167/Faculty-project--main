@@ -19,7 +19,7 @@ const MyJobs = () => {
     const fetchApplications = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/applicationNew/getMyApplications",
+          `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getMyApplications`,
           { withCredentials: true }
         );
         setMyApps(data.applications);
@@ -36,7 +36,7 @@ const MyJobs = () => {
       // const confirmation = window.confirm("Are you sure you want to withdraw this application?");
       // if (confirmation) return; // Don't withdraw if user cancels
       await axios.put(
-        `http://localhost:4000/api/v1/applicationNew/${applicationId}/withdraw`,
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${applicationId}/withdraw`,
         null,
         {
           withCredentials: true,
@@ -60,7 +60,7 @@ const MyJobs = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/v1/applicationNew/getMyApplications",
+        `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getMyApplications`,
         { withCredentials: true }
       );
       setMyApps(data.applications);
@@ -121,7 +121,7 @@ const ApplicationCard = ({ application, withDrawApplication, openCommentsModal }
     const fetchComments = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`,
+          `${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getCommentsByApplication/${application._id}`,
           { withCredentials: true }
         );
         setComments(data.comments);

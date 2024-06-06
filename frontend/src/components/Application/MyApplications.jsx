@@ -27,7 +27,7 @@ const MyApplications = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/applicationNew/getall", {
+      const response = await axios.get(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getall`, {
         withCredentials: true,
       });
       const { applications } = response.data;
@@ -47,7 +47,7 @@ const MyApplications = () => {
 
   const approveApplication = async (applicationId, commentId) => {
     try {
-      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/approve`, null,
+      await axios.put(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${applicationId}/${commentId}/approve`, null,
 
 
         {
@@ -63,7 +63,7 @@ const MyApplications = () => {
 
   const rejectApplication = async (applicationId, commentId) => {
     try {
-      await axios.put(`http://localhost:4000/api/v1/applicationNew/${applicationId}/${commentId}/reject`,
+      await axios.put(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${applicationId}/${commentId}/reject`,
         null,
         {
           withCredentials: true,
@@ -96,7 +96,7 @@ const MyApplications = () => {
   };
   const forwardApplication = async (application, recipient, comment) => {
     try {
-      await axios.put(` http://localhost:4000/api/v1/applicationNew/${application._id}/forward`,
+      await axios.put(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/${application._id}/forward`,
 
         { recipientId: recipient, comment },
         {
@@ -189,7 +189,7 @@ const ApplicationCard = ({ application, approveApplication, rejectApplication, o
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/api/v1/applicationNew/getCommentsByApplication/${application._id}`
+        const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/api/v1/applicationNew/getCommentsByApplication/${application._id}`
           ,
           { withCredentials: true }
         );
