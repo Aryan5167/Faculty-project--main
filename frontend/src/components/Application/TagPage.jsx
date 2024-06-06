@@ -280,7 +280,7 @@ const ApplicationCard = ({ application, openCommentsModal, onAlertButtonClick, u
             cursor: "pointer",
             transition: "background-color 0.3s ease",
             width: "100%",
-            marginBottom: "-25px"
+            // marginBottom: "-25px"
           }} onClick={handleAlertButtonClick}>Alert</button>
         )}
 
